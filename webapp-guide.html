@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>웹앱 만들기와 QR 안내 · 바이브 코딩 딥러닝</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FFFBF1;--cream2:#FBF3E4;--ink:#4A1027;--maroon:#6B1A35;--body:#5B3A45;--pink:#F7BFE0;--lime:#D9F27A;--blue:#C3D3F4;--line:#E9D9CF}
+*{box-sizing:border-box}
+body{margin:0;background:var(--pink);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;line-height:1.75;font-size:16.5px;word-break:keep-all}
+.frame{max-width:920px;margin:0 auto;background:var(--cream);min-height:100vh}
+header{position:sticky;top:0;z-index:5;background:rgba(255,251,241,.95);backdrop-filter:blur(6px);border-bottom:1.5px solid var(--maroon);padding:12px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header a{color:var(--maroon);font-weight:700;text-decoration:none;font-size:14px;border:1.5px solid var(--maroon);border-radius:999px;padding:6px 14px}
+header a:hover{background:var(--lime)}
+header .t{margin-left:auto;font-family:'Gowun Batang',serif;font-weight:700;color:var(--maroon)}
+main{padding:40px 48px 80px}
+h1{font-family:'Gowun Batang',serif;font-size:clamp(26px,4vw,36px);line-height:1.35;color:var(--maroon);margin:0 0 24px}
+h2{font-size:23px;color:var(--maroon);margin:48px 0 14px;padding-top:14px;border-top:1.5px solid var(--maroon)}
+h3{font-size:18px;margin:28px 0 10px}
+p,li{color:var(--body)}
+strong{color:var(--ink)}
+a{color:var(--maroon)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;background:rgba(107,26,53,.08);padding:1px 6px;border-radius:6px;font-size:.88em}
+.code{position:relative;margin:14px 0}
+pre{background:#2B0E1A;color:#FBEFF4;padding:18px 18px 18px;border-radius:14px;overflow:auto;font-size:13.5px;line-height:1.6;white-space:pre-wrap;word-break:break-all;margin:0}
+pre code{background:none;padding:0;color:inherit}
+.copy{position:absolute;top:8px;right:8px;border:1.5px solid var(--lime);background:var(--lime);color:var(--maroon);font:inherit;font-size:12px;font-weight:700;border-radius:999px;padding:4px 12px;cursor:pointer;min-height:32px}
+.tw{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:15px;background:#fff}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{background:var(--blue);color:var(--maroon)}
+ol,ul{padding-left:24px}
+li{margin:4px 0}
+footer{padding:24px 48px;font-size:13px;color:var(--body);border-top:1px solid var(--line)}
+@media (max-width:640px){main{padding:28px 20px 60px}header{padding:10px 16px}footer{padding:20px}}
+@media print{header,.copy{display:none}body{background:#fff}.frame{max-width:none}}
+</style></head>
+<body><div class="frame">
+<header><a href="index.html#student">← 교육자료 사이트</a><span class="t">웹앱 만들기와 QR 안내</span></header>
+<main><h1>웹앱 만들기와 QR 안내 (학생용)</h1>
+<h2>한눈에 보기</h2>
+<p>웹앱은 <strong>HTML 파일로 만들어 선생님께 제출</strong>하고, 선생님이 반 웹앱 사이트에 올려 주면 그 주소로 <strong>QR을 만들어 포스터에 붙여요.</strong> GitHub 가입은 필요 없어요.</p>
+<ol>
+<li><strong>W1</strong> 노트북에서 예측 함수가 잘 되는지 확인해요.</li>
+<li><strong>W2</strong> 제미나이에게 부탁해 <code>index.html</code>과 모델 파일을 만들고, 코랩에서 미리 열어 봐요.</li>
+<li><strong>제출</strong> 두 파일을 압축해 클래스룸에 내요.</li>
+<li><strong>선생님</strong> 반 웹앱 사이트에 올리고 내 주소를 알려 줘요.</li>
+<li><strong>W3</strong> 받은 주소로 QR을 만들어 포스터 ⑦칸에 붙여요.</li>
+</ol>
+<p>이렇게 올린 웹앱은 수업이 끝나도 계속 열려 있어서, 포스터를 붙여 두는 동안 누구나 QR로 써 볼 수 있어요. 내 노트북을 꺼도 괜찮아요.</p>
+<p><a href="carousel.html">따라 하기 캐러셀</a>에 같은 내용이 한 장씩 정리되어 있어요.</p>
+<h2>W1 예측 함수 확인</h2>
+<p>W1은 노트북 안에서 <code>predict_text()</code>(사진 주제는 <code>predict_photo()</code>)가 글 한 줄이나 사진 한 장을 받아 종류별 확률을 돌려주는지 확인하는 단계예요. 지금까지와 같아요.</p>
+<ul>
+<li>노트북의 W1 부탁 문장을 그대로 보내고 <code>check("W1")</code>을 통과해요.</li>
+<li>내가 직접 쓴 예시 3개를 넣어 보고, 틀린 결과가 있으면 메모해 두어요. 포스터와 보고서의 한계 칸에 쓸 수 있어요.</li>
+</ul>
+<h2>W2 HTML 웹앱 만들기</h2>
+<p>W2의 결과물은 <code>webapp</code> 폴더 하나예요. 그 안에 파일이 딱 두 개 들어 있어야 해요.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>주제</th>
+<th>webapp 폴더 안 파일</th>
+<th>크기</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>글 분류 (재난문자, 글 자유 주제)</td>
+<td><code>index.html</code> + <code>model.json</code></td>
+<td>보통 1MB 아래</td>
+</tr>
+<tr>
+<td>사진 분류 (분리배출, 위성 사진, 사진 자유 주제)</td>
+<td><code>index.html</code> + <code>model.onnx</code></td>
+<td>파일 하나에 25MB 아래</td>
+</tr>
+</tbody>
+</table></div>
+<p>댓글 혐오 표현 주제는 공개 웹페이지를 만들지 않아요. 이 주제는 노트북의 그라디오 웹앱으로 수업 중에만 시연하고, 포스터 ⑦칸에는 QR 대신 화면 캡처를 붙여요.</p>
+<h3>글 주제: 제미나이에게 보낼 문장</h3>
+<pre><code>[W2단계] 이미 있는 것: predict_text, vectorizer, model, class_names, INFO, PROJECT_TITLE, SHOW_EXAMPLES, texts_train, texts_test
+인터넷 주소만 있으면 열리는 HTML 웹앱을 만들어 줘. 서버 없이 브라우저에서만 계산해야 해. ① webapp 폴더를 만들고 model.json을 이 모양으로 저장해 줘: {&quot;title&quot;: PROJECT_TITLE, &quot;classes&quot;: class_names, &quot;info&quot;: INFO, &quot;tfidf&quot;: {&quot;analyzer&quot;: &quot;char_wb&quot;, &quot;ngram_range&quot;: [2, 3], &quot;lowercase&quot;: true, &quot;sublinear_tf&quot;: true, &quot;norm&quot;: &quot;l2&quot;, &quot;vocabulary&quot;: {글자 조각: 번호}, &quot;idf&quot;: [숫자들]}, &quot;layers&quot;: [Dense 층마다 {&quot;weights&quot;: [입력 수][출력 수] 2차원 리스트, &quot;bias&quot;: [숫자들], &quot;activation&quot;: &quot;relu&quot; 또는 &quot;softmax&quot;}], &quot;examples&quot;: SHOW_EXAMPLES가 True면 texts_test 앞 3개(아니면 []), &quot;tests&quot;: [texts_test 앞 5개마다 {&quot;text&quot;: 글, &quot;probs&quot;: predict_text의 확률(class_names 순서)}]}. 숫자는 소수 6자리로 반올림해 줘. ② webapp/index.html은 fetch('model.json')으로 읽고, 사이킷런 char_wb와 똑같이 글을 쪼개서(소문자로 바꾸고 띄어쓰기로 나눈 낱말 앞뒤에 공백을 붙여 2~3글자 조각, 낱말이 조각보다 짧으면 낱말 전체 하나만) 조각 수로 (1+ln(개수))×idf를 구하고 L2 정규화한 뒤 층을 차례로 계산해서, 가장 높은 종류와 INFO 안내, 종류별 확률 막대를 보여 줘. 페이지가 열리면 tests로 검산해서 화면 아래에 '검산 통과' 또는 '검산 실패'를 보여 줘. 서버, API 키, 다른 사이트의 그림은 쓰지 말고, 화면 아래에 '연습용 AI라 틀릴 수 있어요'를 넣어 줘. ③ 두 파일이 생겼는지 보여 줘.
+</code></pre>
+<p>1단계를 형태소 방식(ANALYZER = "word")으로 했다면 노트북 W2 카드의 두 번째 부탁을 보내요. 웹앱용 글자 조각 모델을 하나 더 학습해서 내보내요.</p>
+<h3>사진 주제: 제미나이에게 보낼 문장</h3>
+<pre><code>[W2단계] 이미 있는 것: predict_photo, photo_features, BASE_MODEL, model, class_names, INFO, PROJECT_TITLE, paths_test
+인터넷 주소만 있으면 휴대폰에서도 열리는 HTML 웹앱을 만들어 줘. 서버 없이 브라우저에서만 계산해야 해. ① 사진(높이×너비×3, 숫자 0~255)을 받아 photo_features와 똑같은 전처리 → 1단계의 base 모델 → 내 model까지 한 번에 계산하는 keras 모델 full을 만들고, !pip install -q tf2onnx onnxruntime 후 시험 사진 한 장으로 full.predict를 한 번 실행한 다음 full.export('webapp/model.onnx', format='onnx')로 저장해 줘. 입력 크기는 photo_features가 쓰는 크기로. ② paths_test 앞 3장으로 onnxruntime 결과와 predict_photo 결과가 같은지 비교해 줘. ③ webapp/index.html은 &lt;script src='https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.min.js'&gt;로 model.onnx를 읽고, 사진 고르기 버튼(input type=file, accept=image/*, 휴대폰은 카메라도)으로 사진을 받아 같은 크기로 줄인 뒤 0~255 숫자 [1, 높이, 너비, 3] float32로 넣어 계산해서, 가장 높은 종류와 INFO 안내, 종류별 확률 막대를 보여 줘. class_names(순서 그대로)와 INFO는 index.html 안에 넣어 줘. 사진은 어디에도 보내지 말고, 화면 아래에 '연습용 AI라 틀릴 수 있어요. 사람 얼굴은 올리지 마세요'를 넣어 줘. webapp 폴더에는 두 파일만 둬.
+</code></pre>
+<h3>코랩에서 미리 열어 보기</h3>
+<p>내려받은 <code>index.html</code>을 더블클릭하면 모델을 못 읽어 빈 화면이 나와요. 예시 주제·자유 주제 노트북에서는 준비 칸에 도우미가 들어 있어서 <code>preview_webapp()</code> 한 줄이면 돼요. 노트북 밖에서는 아래 칸을 써요.</p>
+<pre><code class="language-python">import subprocess
+from google.colab import output
+subprocess.Popen([&quot;python&quot;, &quot;-m&quot;, &quot;http.server&quot;, &quot;8000&quot;, &quot;--directory&quot;, &quot;webapp&quot;])
+output.serve_kernel_port_as_window(8000)
+</code></pre>
+<ul>
+<li>검산 코드에서 파이썬과 웹의 확률 차이가 0.01 안쪽이면 통과예요.</li>
+<li>미리 보기 창에서 내 예시 3개를 넣어 W1과 같은 답이 나오는지 확인해요.</li>
+</ul>
+<h2>제출하기</h2>
+<p><code>webapp</code> 폴더를 <strong>반-번호.zip</strong> 하나로 압축해 클래스룸 과제 "웹앱 제출"에 내요. 예: 2학년 1반 7번 → <code>2-1-07.zip</code></p>
+<p>노트북에서는 <code>make_zip("2-1-07")</code> 한 줄이면 W2 확인, 압축, 내려받기까지 한 번에 해요. 노트북 밖에서는 아래처럼 해요.</p>
+<pre><code class="language-python">MY_ID = &quot;2-1-07&quot;   # 반-번호 (번호는 두 자리)
+import shutil, os
+from google.colab import files
+print(sorted(os.listdir(&quot;webapp&quot;)))   # index.html 과 model 파일 두 개만 있어야 해요
+shutil.make_archive(MY_ID, &quot;zip&quot;, &quot;webapp&quot;)
+files.download(MY_ID + &quot;.zip&quot;)
+</code></pre>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>확인할 것</th>
+<th>기준</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>파일 이름</td>
+<td><code>index.html</code>(소문자), <code>model.json</code> 또는 <code>model.onnx</code></td>
+</tr>
+<tr>
+<td>파일 개수</td>
+<td>딱 2개. 데이터 파일·사진·노트북은 넣지 않아요</td>
+</tr>
+<tr>
+<td>크기</td>
+<td>파일 하나에 25MB 아래</td>
+</tr>
+<tr>
+<td>마감</td>
+<td>포스터 제출 2일 전까지 (반별 날짜는 선생님 안내)</td>
+</tr>
+</tbody>
+</table></div>
+<p>선생님이 올리기 전에 파일을 한 번 확인해요. 고쳐야 할 곳이 있으면 클래스룸 댓글로 알려 주고, 고친 파일을 같은 이름으로 다시 내면 돼요.</p>
+<h2>W3 주소 받고 QR 만들기</h2>
+<p>선생님이 올리면 내 웹앱 주소는 <code>https://[선생님 아이디].github.io/[저장소 이름]/반-번호/</code> 모양이에요. 정확한 주소는 클래스룸으로 알려 줘요.</p>
+<ol>
+<li>휴대폰과 컴퓨터에서 주소를 열어 웹앱이 동작하는지 확인해요.</li>
+<li>코랩에서 아래 칸을 실행해 <code>qr.png</code>를 만들고 내려받아요.</li>
+<li>휴대폰 카메라로 QR을 찍어 내 웹앱이 열리는지 한 번 더 확인해요.</li>
+<li>포스터 ⑦칸에 QR을 넣고, 그 아래에 주소를 글자로도 적어요.</li>
+</ol>
+<pre><code class="language-python">URL = &quot;선생님이 알려 준 내 웹앱 주소&quot;
+!pip -q install qrcode
+import qrcode
+from google.colab import files
+qrcode.make(URL, border=2, box_size=12).save(&quot;qr.png&quot;)
+files.download(&quot;qr.png&quot;)
+</code></pre>
+<p>노트북 W3 카드의 부탁을 보내도 같은 코드를 만들어 줘요. 끝나면 <code>check("W3")</code>가 QR 안의 주소가 <code>WEBAPP_URL</code>과 같은지 확인해요.</p>
+<p>A1 포스터에서 QR은 가로·세로 8cm 이상으로 크게 넣어야 포스터 앞에 선 친구들이 쉽게 찍을 수 있어요.</p>
+<h2>꼭 지킬 것</h2>
+<p>반 웹앱 사이트는 <strong>누구나 볼 수 있는 공개 사이트</strong>예요. 웹앱과 모델 파일에 아래 내용이 들어 있으면 올리지 않고 돌려보내요.</p>
+<ul>
+<li>이름 · 학교 이름 · 얼굴 사진 같은 개인정보</li>
+<li>API 인증키 (웹앱은 키 없이 동작해야 해요)</li>
+<li>학습에 쓴 데이터 파일과 사진 (데이터는 다시 배포하지 않아요)</li>
+<li>인터넷에서 가져온 그림, 다른 사이트로 연결되는 링크</li>
+<li>혐오 표현이나 실제 사람을 가리키는 예시 문장</li>
+</ul>
+<p>웹앱 화면에는 주제 제목, 사용법, 결과, '연습용 AI라 틀릴 수 있어요' 안내만 넣어요.</p>
+<h2>막힐 때</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>이럴 때</th>
+<th>이렇게 해요</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>미리 보기 창이 빈 화면</td>
+<td><code>webapp</code> 폴더에 <code>index.html</code>과 모델 파일이 있는지 확인해요. 화면에서 우클릭 → 검사 → Console의 빨간 오류를 복사해 제미나이에게 "이 오류를 고쳐 줘"라고 보내요.</td>
+</tr>
+<tr>
+<td>파이썬과 웹 확률이 다름</td>
+<td>"검산에서 확률이 달라. 새로 학습하거나 전처리를 바꾸지 말고, 웹 계산을 파이썬과 똑같게 맞춰 줘"라고 보내요.</td>
+</tr>
+<tr>
+<td>export "never called" 오류</td>
+<td>W2 카드의 고치기 부탁을 보내요 (예측을 한 번 한 뒤 저장).</td>
+</tr>
+<tr>
+<td>model.onnx가 25MB보다 큼</td>
+<td>더 가벼운 BASE_MODEL(MobileNetV2 등)로 바꾸거나 선생님께 말해요.</td>
+</tr>
+<tr>
+<td>tf2onnx 설치·변환 오류</td>
+<td>오류 마지막 두 줄을 제미나이에게 보내요. 그래도 안 되면 선생님께 말해요.</td>
+</tr>
+<tr>
+<td>주소를 열면 404</td>
+<td>선생님이 올린 뒤 1~2분 기다려요. 주소의 반-번호, 대소문자, 끝의 <code>/</code>를 확인해요.</td>
+</tr>
+<tr>
+<td>제출이 마감에 못 맞음</td>
+<td>포스터 ⑦칸에 미리 보기 화면 캡처를 넣어요. 발표는 노트북 시연으로 해도 감점되지 않아요.</td>
+</tr>
+</tbody>
+</table></div></main>
+<footer>바이브 코딩으로 학생들과 딥러닝 만들기 · 2026</footer>
+</div><script>
+document.querySelectorAll('pre').forEach(p=>{const w=document.createElement('div');w.className='code';p.parentNode.insertBefore(w,p);w.appendChild(p);
+const b=document.createElement('button');b.className='copy';b.textContent='복사';b.onclick=async()=>{const t=p.innerText;try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}b.textContent='복사됨';setTimeout(()=>b.textContent='복사',1500)};w.appendChild(b)});
+</script></body></html>

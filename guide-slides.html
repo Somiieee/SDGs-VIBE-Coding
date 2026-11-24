@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>학생 지침서: 재난문자 쉬운 안내 도우미, 처음부터 끝까지</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400..800&family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&display=swap">
+<style>
+html,body{margin:0;height:100%;background:#F7BFE0;font-family:'Noto Sans KR',system-ui,sans-serif}
+.top{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#FFFBF1;border-bottom:2px solid #6B1A35;color:#6B1A35;font-weight:700;font-size:15px}
+.top a{color:#6B1A35} .top .t{margin-right:auto}
+.stagewrap{position:relative;width:min(100vw,calc((100vh - 120px) * 16 / 9));margin:12px auto 0;aspect-ratio:16/9;overflow:hidden;border-radius:14px;box-shadow:0 10px 30px rgba(74,16,39,.2);background:#FFFBF1}
+.stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.slot{position:absolute;inset:0} .slot>section{position:relative;width:1920px;height:1080px;overflow:hidden;box-sizing:border-box} aside{display:none}
+.ctrl{display:flex;justify-content:center;align-items:center;gap:14px;padding:12px}
+.ctrl button{font:inherit;font-weight:700;font-size:16px;min-width:96px;min-height:44px;border-radius:999px;border:2px solid #6B1A35;background:#FFFBF1;color:#6B1A35;cursor:pointer}
+.ctrl button:disabled{opacity:.4;cursor:default} #count{font-weight:800;color:#6B1A35;min-width:64px;text-align:center}
+section {
+  --ink: #1B2A41;
+  --paper: #FAF7F0;
+  --soft: #EAF1F7;
+  --body: #4A5568;
+  --orange: #E9873A;
+  --orange-ink: #A84E08;
+  --blue: #2F6FA8;
+  --card: #FFFDF8;
+  --line: #E2DACB;
+  font-family: 'Noto Sans KR', Arial, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 128px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  box-sizing: border-box;
+}
+section.soft { background: var(--soft); }
+section.dark { background: var(--ink); color: #F4F1EA; }
+section.accent { background: var(--orange); color: var(--ink); justify-content: center; }
+
+.eyebrow { font-size: 26px; font-weight: 700; color: var(--orange-ink); letter-spacing: 0.04em; margin: 0; }
+section.dark .eyebrow { color: #F2A766; }
+h1 { font-size: 96px; font-weight: 800; line-height: 1.15; margin: 0; }
+h2 { font-size: 64px; font-weight: 800; line-height: 1.2; margin: 0; }
+h3 { font-size: 40px; font-weight: 700; line-height: 1.3; margin: 0; }
+.lead { font-size: 40px; line-height: 1.5; color: var(--body); margin: 0; }
+section.dark .lead { color: #C9D6E3; }
+.body { font-size: 30px; line-height: 1.55; color: var(--body); margin: 0; }
+section.dark .body { color: #C9D6E3; }
+.small { font-size: 26px; line-height: 1.5; color: var(--body); margin: 0; }
+section.dark .small { color: #C9D6E3; }
+.hl { color: var(--orange-ink); font-weight: 700; }
+section.dark .hl { color: #F2A766; }
+
+.head { display: flex; flex-direction: column; gap: 16px; }
+.cols { display: flex; gap: 40px; flex: 1; }
+.col { flex: 1; display: flex; flex-direction: column; gap: 24px; }
+
+.cards { display: flex; gap: 32px; }
+.card { flex: 1; background: var(--card); border: 2px solid var(--line); border-radius: 28px; padding: 40px; display: flex; flex-direction: column; gap: 16px; }
+section.soft .card { border-color: #CFDCE8; }
+.card.pick { border: 4px solid var(--orange); }
+.card .tag { font-size: 26px; font-weight: 700; color: var(--blue); margin: 0; }
+.card .body { font-size: 28px; }
+.card .small { font-size: 26px; }
+
+.badge { width: 72px; height: 72px; border-radius: 36px; background: var(--orange); color: var(--ink); font-size: 36px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.badge.blue { background: var(--blue); color: #FAF7F0; }
+
+.rows { display: flex; flex-direction: column; gap: 22px; }
+.row { display: flex; align-items: center; gap: 32px; background: var(--card); border: 2px solid var(--line); border-radius: 24px; padding: 22px 36px; }
+section.soft .row { border-color: #CFDCE8; }
+.row .body { flex: 1; }
+.row h3 { font-size: 34px; width: 420px; flex-shrink: 0; }
+
+table.tbl { border-collapse: collapse; width: 100%; font-size: 30px; }
+table.tbl th { text-align: left; font-size: 28px; font-weight: 700; color: var(--body); padding: 18px 28px; border-bottom: 3px solid var(--ink); }
+table.tbl td { padding: 20px 28px; border-bottom: 2px solid var(--line); line-height: 1.4; color: var(--ink); vertical-align: top; }
+section.soft table.tbl td { border-bottom-color: #CFDCE8; }
+table.tbl td.k { font-weight: 700; width: 300px; }
+table.tbl td.new { color: var(--orange-ink); font-weight: 700; }
+
+.flow { display: flex; align-items: stretch; gap: 20px; }
+.step { flex: 1; border-radius: 28px; padding: 40px; display: flex; flex-direction: column; gap: 14px; }
+.step.a { background: #FDE6D2; }
+.step.b { background: #DCE8F4; }
+.step.c { background: #1B2A41; color: #F4F1EA; }
+.step.c .body { color: #C9D6E3; }
+.step .code { font-size: 30px; font-weight: 800; color: var(--orange-ink); margin: 0; }
+.step.b .code { color: var(--blue); }
+.step.c .code { color: #F2A766; }
+.arrow { display: flex; align-items: center; }
+.arrow x-shape { width: 56px; height: 48px; }
+.optional { border: 3px dashed var(--blue); border-radius: 28px; padding: 28px 40px; display: flex; align-items: center; gap: 32px; }
+
+.check { width: 40px; height: 40px; border: 4px solid var(--ink); border-radius: 8px; flex-shrink: 0; box-sizing: border-box; }
+
+.mock { background: var(--card); border-radius: 24px; padding: 36px; display: flex; flex-direction: column; gap: 20px; color: var(--ink); }
+.mock .title { font-size: 28px; font-weight: 700; margin: 0; }
+.slider { display: flex; flex-direction: column; gap: 8px; }
+.slider .lab { font-size: 24px; color: var(--body); margin: 0; }
+.track { height: 12px; border-radius: 6px; background: #E2DACB; position: relative; }
+.fill { height: 12px; border-radius: 6px; background: var(--orange); }
+.result { font-size: 44px; font-weight: 800; color: var(--orange-ink); margin: 0; }
+.bar { height: 28px; border-radius: 8px; }
+.qr { border: 4px dashed #F2A766; border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 32px; }
+.qr .big { font-size: 64px; font-weight: 800; color: #F2A766; margin: 0; }
+
+.linkrow { display: flex; align-items: center; gap: 28px; padding: 24px 0; border-bottom: 2px solid #3A4B66; }
+.linkrow a { color: #F2A766; font-size: 32px; font-weight: 700; text-decoration: none; }
+
+.prompt { background: #1B2A41; color: #F4F1EA; border-radius: 20px; padding: 26px 32px; display: flex; flex-direction: column; gap: 10px; }
+.prompt .lab { color: #F2A766; font-weight: 700; font-size: 24px; margin: 0; }
+.prompt .txt { font-size: 26px; line-height: 1.5; margin: 0; color: #F4F1EA; }
+.out { background: #FFFDF8; border: 2px solid #E2DACB; border-radius: 20px; padding: 24px 32px; display: flex; flex-direction: column; gap: 10px; }
+section.soft .out { border-color: #CFDCE8; }
+.out .lab { color: #2F6FA8; font-weight: 700; font-size: 24px; margin: 0; }
+.out .txt { font-size: 26px; line-height: 1.5; margin: 0; color: #1B2A41; }
+.warn { background: #FDE6D2; border-radius: 20px; padding: 20px 28px; display: flex; flex-direction: column; gap: 6px; }
+.warn .lab { color: #A84E08; font-weight: 700; font-size: 24px; margin: 0; }
+.warn .txt { font-size: 26px; line-height: 1.5; margin: 0; color: #1B2A41; }
+.note { font-size: 24px; line-height: 1.5; color: #4A5568; margin: 0; }
+.note b { color: #1B2A41; }
+.two { display: flex; gap: 32px; flex: 1; }
+.two > div { flex: 1; display: flex; flex-direction: column; gap: 18px; }
+.arrowtxt { display: flex; align-items: center; font-size: 56px; color: #A84E08; font-weight: 800; }
+.phase { flex: 1; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 12px; background: var(--card); border: 2px solid var(--line); }
+.phase .when { font-size: 26px; font-weight: 800; color: var(--orange-ink); margin: 0; }
+.phase h3 { font-size: 36px; }
+.phase.now { border: 4px solid var(--orange); }
+.big { font-size: 120px; font-weight: 800; line-height: 1; color: var(--orange-ink); margin: 0; }
+.mini { width: 100%; border-collapse: collapse; font-size: 26px; }
+.mini td, .mini th { padding: 12px 16px; border-bottom: 2px solid var(--line); text-align: center; }
+.mini th { color: var(--body); font-size: 24px; }
+.mini td.hot { background: #FDE6D2; color: #A84E08; font-weight: 800; }
+.mini td.diag { font-weight: 800; }
+.vbar { display: flex; align-items: flex-end; gap: 40px; height: 360px; }
+.vbar > div { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 10px; height: 100%; }
+.vbar .b { width: 100%; border-radius: 12px 12px 0 0; background: #2F6FA8; }
+.vbar .v { font-size: 34px; font-weight: 800; margin: 0; }
+.vbar .l { font-size: 24px; color: var(--body); margin: 0; }
+
+</style></head><body>
+<div class="top"><span class="t">학생 지침서: 재난문자 쉬운 안내 도우미, 처음부터 끝까지</span><a href="index.html">← 교육자료 사이트</a></div>
+<div class="stagewrap" id="wrap"><div class="stage" id="stage">
+<div class="slot" data-i="0"><section id="cover" class="dark" data-transition="fade" style="justify-content:space-between">
+<p class="eyebrow">학생 지침서 · 한 주제로 처음부터 끝까지</p>
+<div class="head">
+<h1>재난문자 쉬운 안내 도우미<br>만들기, 순서대로</h1>
+<p class="lead">한 학생이 1차시에 주제를 고르고, 노트북 13단계를 지나,<br>7차시에 발표하고 대화를 제출하기까지 따라가 봅니다.</p>
+</div>
+<p class="small">예시의 숫자는 설명을 위한 가상 수치예요. 여러분은 내 노트북에서 나온 숫자를 씁니다. 다른 주제도 순서는 똑같아요.</p>
+</section>
+</div>
+<div class="slot" data-i="1" hidden><section id="map">
+<div class="head">
+<p class="eyebrow">전체 지도</p>
+<h2>7차시, 네 덩어리로 갑니다</h2>
+</div>
+<div class="flow" style="flex:1">
+<div class="phase"><p class="when">1차시</p><h3>질문 세우고 모으기</h3><p class="body">주제·가설 정하기<br>노트북·대화방 준비<br>A1 · A2 · A3</p></div>
+<div class="arrowtxt">›</div>
+<div class="phase"><p class="when">2~3차시</p><h3>숫자로 바꾸고 학습·분석</h3><p class="body">1 숫자로 · 2 설계 · 3 학습<br>4 튜닝 · 5 시험 · 6 분석</p></div>
+<div class="arrowtxt">›</div>
+<div class="phase"><p class="when">4차시</p><h3>해석 쓰고 공개하기</h3><p class="body">7 내 말로 해석<br>W1 예측 함수 · W2 웹앱 · W3 QR</p></div>
+<div class="arrowtxt">›</div>
+<div class="phase"><p class="when">5~6차시</p><h3>옮기고 발표하기</h3><p class="body">보고서 · 포스터 발표 자료 제출, &nbsp;대화 전체 제출</p></div>
+</div>
+<p class="note"><b>노트북 단계 이름</b>은 네 주제 모두 같아요. 이 지침서의 각 장 위쪽 작은 글씨가 ‘지금 몇 차시, 몇 단계’인지 알려 줘요.</p>
+</section></div>
+<div class="slot" data-i="2" hidden><section id="pick" class="soft">
+<div class="head">
+<p class="eyebrow">1차시 · 주제와 가설</p>
+<h2>네 주제 중 ‘재난문자’를 골랐어요</h2>
+</div>
+<div class="cards">
+<div class="card"><p class="tag">이미지 · SDG 15.1</p><h3>위성 사진 토지 감시</h3><p class="small">가장 무난</p></div>
+<div class="card"><p class="tag">이미지 · SDG 12.5</p><h3>분리배출 도우미</h3><p class="small">직접 찍은 사진 더하기</p></div>
+<div class="card pick"><p class="tag">글 · SDG 11.5 · 10.2</p><h3>재난문자 쉬운 안내</h3><p class="small">API로 직접 수집</p></div>
+<div class="card"><p class="tag">글 · SDG 16.1</p><h3>댓글 혐오 표현 감지</h3><p class="small">허락받은 학생만</p></div>
+</div>
+<div class="two">
+<div class="out"><p class="lab">✏️ 탐구 질문 (내가 씀)</p><p class="txt">① 짧은 재난문자만으로 재난 유형을 구별할 수 있을까?<br>② 재해 이름을 지워도 맞힐까?</p></div>
+<div class="out"><p class="lab">✏️ 가설과 교과 근거 (결과 보기 전에)</p><p class="txt">대설과 한파가 가장 많이 헷갈릴 것이다.<br>지구과학: 시베리아 고기압이 확장하면 한파와 눈이 함께 온다.</p></div>
+</div>
+</section>
+</div>
+<div class="slot" data-i="3" hidden><section id="setup" style="gap:28px">
+<div class="head">
+<p class="eyebrow">1차시 · 준비 · 첫 10분</p>
+<h2>노트북을 복사하고, 대화방을 딱 하나 열어요</h2>
+</div>
+<div class="rows" style="gap:14px">
+<div class="row" style="padding:16px 36px"><div class="badge">1</div><h3>노트북 복사</h3><p class="body">vibe_disaster_ai를 열고 <b>파일 → 드라이브에 사본 저장</b></p></div>
+<div class="row" style="padding:16px 36px"><div class="badge">2</div><h3>0번 준비 칸</h3><p class="body">실행만 해요. 안의 코드는 고치지 않아요</p></div>
+<div class="row" style="padding:16px 36px"><div class="badge">3</div><h3>1번 설정 칸</h3><p class="body">종류, 안내 문장(INFO), 제목을 고치고 실행</p></div>
+<div class="row" style="padding:16px 36px"><div class="badge">4</div><h3>대화방 열기</h3><p class="body">무료 제미나이 새 대화방 하나, 이름 ‘SDG AI 프로젝트_출석번호’</p></div>
+<div class="row" style="padding:16px 36px"><div class="badge">5</div><h3>첫 메시지</h3><p class="body">노트북 맨 위 첫 메시지 + 설정 칸 내용 → “준비됐어”</p></div>
+</div>
+<p class="note"><b>⚠️</b> 인증키(API_KEY)는 설정 칸에만 넣어요. 대화방에 붙여 넣는 설정 내용에서는 지우고 보내요.</p>
+</section>
+</div>
+<div class="slot" data-i="4" hidden><section id="loop" class="soft">
+<div class="head">
+<p class="eyebrow">모든 단계에서 똑같이</p>
+<h2>한 단계 = 다섯 동작</h2>
+</div>
+<div class="flow" style="flex:1">
+<div class="step a"><p class="code">① 읽기</p><p class="body">카드의 🎯 목표와 ✅ 나와야 할 것</p></div>
+<div class="arrowtxt">›</div>
+<div class="step a"><p class="code">② 부탁</p><p class="body">💬 부탁을 통째로 복사해 대화방에</p></div>
+<div class="arrowtxt">›</div>
+<div class="step b"><p class="code">③ 실행</p><p class="body">받은 코드를 👉 칸에 붙여 실행</p></div>
+<div class="arrowtxt">›</div>
+<div class="step b"><p class="code">④ 확인</p><p class="body">check("단계") → 🎉</p></div>
+<div class="arrowtxt">›</div>
+<div class="step c"><p class="code">⑤ 이해</p><p class="body">🔍 이해 질문 보내고 📋 숫자 적기</p></div>
+</div>
+<p class="note"><b>부탁 문장은 모두 노트북 카드에 있어요.</b> 내가 새로 짜는 게 아니라, 무엇을 부탁하는지 이해하고 결과를 해석하는 게 내 몫이에요.</p>
+</section>
+</div>
+<div class="slot" data-i="5" hidden><section id="checks">
+<div class="head">
+<p class="eyebrow">check와 teacher</p>
+<h2>🎉 · ⚠️ · 🆘 는 이렇게 읽어요</h2>
+</div>
+<div class="cards" style="flex:1">
+<div class="card"><p class="tag">🎉 통과</p><h3>결과가 조건을 지켰다</h3><p class="body">코드 모양이 달라도 괜찮아요. check는 코드가 아니라 결과(변수, 파일, 숫자)를 봐요.</p></div>
+<div class="card pick"><p class="tag">⚠️ 경고</p><h3>문제를 찾았다</h3><p class="body">시험 자료가 새어 들어갔다, 이름이 다르다 같은 문제예요. ⚠️ 문장을 그대로 대화방에 붙여 고쳐 달라고 해요.</p></div>
+<div class="card"><p class="tag">🆘 teacher("단계")</p><h3>세 번 고쳐도 안 될 때</h3><p class="body">선생님 코드가 그 단계만 대신하고 기록이 남아요. 보고서 7장에 솔직하게 적어요.</p></div>
+</div>
+<p class="note"><b>teacher가 못 하는 것</b> 데이터를 인터넷에서 대신 모으기(백업 파일을 올려야 함), 출처 적기, 7단계 해석 쓰기, 주제에 맞는 특별한 시험</p>
+</section>
+</div>
+<div class="slot" data-i="6" hidden><section id="a1">
+<div class="head">
+<p class="eyebrow">1차시 · A1단계 · 데이터 모으기</p>
+<h2>API로 재난문자 11,904건을 모았어요</h2>
+</div>
+<div class="two">
+<div>
+<div class="prompt"><p class="lab">💬 보낸 부탁 (카드 그대로, 줄임)</p><p class="txt">[A1단계] requests로 API_URL에 요청해서 긴급재난문자를 모아 줘. 1쪽에 1,000개, 요청 사이 1초 쉬기. MSG_CN을 text, DST_SE_NM을 label로 바꿔 raw_data.csv로 저장해 줘. 인증키는 화면에 출력하지 마.</p></div>
+</div>
+<div>
+<div class="warn"><p class="lab">⚠️ 처음엔 ‘MSG_CN을 못 찾음’ 오류</p><p class="txt">카드의 🛠 이럴 땐 문장 “응답 구조를 앞부분만 출력해 줘”를 보내서 기록이 어디 있는지 확인 → 해결</p></div>
+<div class="out"><p class="lab">✅ 결과 → check("A1") 🎉</p><p class="txt">raw_data.csv · 11,904행<br>SOURCE = "행정안전부 긴급재난문자"<br>LICENSE = "공공누리 제3유형"</p></div>
+</div>
+</div>
+<p class="note"><b>🔍 이해 질문</b> “공공누리 제3유형이 무슨 뜻이야?” → 출처를 밝히고 내용은 바꾸지 않고 써야 함 · <b>📝 보고서</b> 2-1, 2-2 · API가 막히면 선생님 백업 CSV + teacher("A1")</p>
+</section>
+</div>
+<div class="slot" data-i="7" hidden><section id="a2" class="soft">
+<div class="head">
+<p class="eyebrow">1차시 · A2단계 · 데이터 살펴보기</p>
+<h2>호우 문자가 가장 많고, 유형마다 개수가 달랐어요</h2>
+</div>
+<div class="two">
+<div>
+<div class="out"><p class="lab">✅ 결과 (class_counts.png)</p>
+<table class="mini"><tr><th>호우</th><th>폭염</th><th>한파</th><th>대설</th><th>강풍</th><th>산불</th><th>기타</th></tr>
+<tr><td>3,912</td><td>2,207</td><td>1,486</td><td>1,322</td><td>1,105</td><td>968</td><td>904</td></tr></table>
+<p class="txt">문자 길이 평균 87자 (text_length.png)</p></div>
+</div>
+<div>
+<div class="prompt"><p class="lab">🔍 보낸 이해 질문</p><p class="txt">종류별 개수 차이가 크면 AI가 어떤 실수를 하기 쉬운지 설명해 줘.</p></div>
+<div class="out"><p class="lab">✏️ 내가 정리한 것</p><p class="txt">많은 쪽(호우)으로 답하기 쉽다 → 5단계에서 정확도만 보지 말고 종류별 재현율을 꼭 보자.</p></div>
+</div>
+</div>
+<p class="note"><b>📝 보고서</b> 2-3 데이터 모습 (그래프 두 개를 넣고, 눈에 띄는 점 한두 문장)</p>
+</section>
+</div>
+<div class="slot" data-i="8" hidden><section id="a3">
+<div class="head">
+<p class="eyebrow">1차시 · A3단계 · 정리하고 나누기</p>
+<h2>중복을 지우니 11,904 → 1,904건</h2>
+</div>
+<div class="two">
+<div>
+<div class="out"><p class="lab">✅ 단계마다 남은 개수</p><p class="txt">① ‘기타’ 빼기 → 11,000<br>② 실종자 안내 등 사람 정보 빼기 → 10,412<br>③ 똑같은 문자 하나만 → 2,036<br>④ 많은 유형 6개만 → 1,904<br>⑤ 학습 1,523 · 시험 381 (8:2)</p></div>
+</div>
+<div>
+<div class="warn"><p class="lab">⚠️ check("A3")가 잡아낸 문제</p><p class="txt">“똑같은 글이 학습 자료와 시험 자료에 모두 들어 있어요.” → 이 문장을 붙여 보내서, 중복 제거를 나누기 <b>전</b>으로 옮김</p></div>
+<div class="out"><p class="lab">✏️ 왜 중요한지 내 말로</p><p class="txt">같은 문자를 여러 지역에 보내서 중복이 많았다. 그대로 두면 시험 문제를 미리 본 것과 같아 점수가 부풀려진다.</p></div>
+</div>
+</div>
+<p class="note"><b>📝 보고서</b> 2-4 정리 과정 (지운 것과 그 이유) · 이 경고를 고친 이야기는 7장에도 써요</p>
+</section>
+</div>
+<div class="slot" data-i="9" hidden><section id="s1" class="soft">
+<div class="head">
+<p class="eyebrow">2차시 · 1단계 · 글을 숫자로 (TF-IDF)</p>
+<h2>학습 문자로만 단어장 2,146개를 만들었어요</h2>
+</div>
+<div class="two">
+<div>
+<div class="prompt"><p class="lab">💬 보낸 부탁 (줄임)</p><p class="txt">[1단계] 형태소 분석기 kiwipiepy로 낱말을 쪼개는 함수를 만들고, TfidfVectorizer를 texts_train으로만 fit, texts_test는 transform만 해 줘. X_train, X_test로 저장해 줘.</p></div>
+<div class="out"><p class="lab">✅ 결과 → check("1") 🎉</p><p class="txt">X_train (1,523, 2,146) · 문자 1개 = 숫자 2,146개</p></div>
+</div>
+<div>
+<div class="out"><p class="lab">✏️ 이해 질문으로 정리</p><p class="txt">TF = 이 문자에 그 낱말이 얼마나 자주 나오나<br>IDF = 전체 문자 중 얼마나 드문가<br>→ ‘안전’은 작고, ‘동파’는 크다</p></div>
+<div class="out"><p class="lab">✏️ 단위를 고른 이유</p><p class="txt">재난문자는 맞춤법이 정확한 행정 문장이라 형태소 낱말이 뜻을 잘 담는다.</p></div>
+</div>
+</div>
+<p class="note"><b>📝 보고서</b> 3장 · check는 단어장을 학습 글로만 다시 만들어 비교해요. 시험 글을 넣었으면 ⚠️가 나와요.</p>
+</section>
+</div>
+<div class="slot" data-i="10" hidden><section id="s2">
+<div class="head">
+<p class="eyebrow">2차시 · 2단계 · 신경망 설계</p>
+<h2>입력 2,146 → 은닉 64 → 출력 6</h2>
+</div>
+<div class="two">
+<div>
+<div class="prompt"><p class="lab">💬 보낸 부탁 (줄임)</p><p class="txt">[2단계] Keras로 model을 만들어 줘: Input → Dense 64(relu) → 출력층 len(class_names)개(softmax). model.summary()를 보여 줘. 아직 학습은 하지 마.</p></div>
+<div class="out"><p class="lab">✅ 결과 → check("2") 🎉</p><p class="txt">파라미터 137,798개</p></div>
+</div>
+<div>
+<div class="out"><p class="lab">✏️ 직접 계산해 봄</p><p class="txt">은닉층: 2,146 × 64 + 64 = 137,408<br>출력층: 64 × 6 + 6 = 390<br>합계: 137,798 ✔</p></div>
+<div class="out"><p class="lab">✏️ 배운 개념과 연결</p><p class="txt">softmax = 로지스틱 회귀를 6종류로 넓힌 것. 은닉층이 낱말들의 조합을 배운다.</p></div>
+</div>
+</div>
+<p class="note"><b>📝 보고서</b> 4장 (층 구성표, 파라미터 계산, 로지스틱 회귀와 비교)</p>
+</section>
+</div>
+<div class="slot" data-i="11" hidden><section id="s34" class="soft">
+<div class="head">
+<p class="eyebrow">2~3차시 · 3단계 학습 · 4단계 튜닝</p>
+<h2>23번째에서 멈췄고, 뉴런 64개가 가장 좋았어요</h2>
+</div>
+<div class="two">
+<div>
+<div class="out"><p class="lab">✅ 3단계 결과 → check("3") 🎉</p><p class="txt">EarlyStopping으로 23번째 반복에서 멈춤<br>가장 좋은 검증 정확도 86.1%<br>15번째쯤부터 val_loss가 다시 오름 → 과대적합 시작</p></div>
+<div class="out"><p class="lab">✏️ 내 말로</p><p class="txt">검증 자료는 학습 중 실력을 재는 ‘모의고사’. 시험 자료는 아직 한 번도 안 봤다.</p></div>
+</div>
+<div>
+<div class="out"><p class="lab">✅ 4단계 결과 → check("4") 🎉</p>
+<table class="mini"><tr><th>뉴런 16</th><th>뉴런 64</th><th>뉴런 128</th></tr><tr><td>84.2%</td><td class="hot">86.1%</td><td>85.8%</td></tr></table></div>
+<div class="out"><p class="lab">✏️ 해석</p><p class="txt">128개가 오히려 낮다 → 데이터가 1,500개 정도라 뉴런이 많으면 외우기 쉽다.</p></div>
+</div>
+</div>
+<p class="note"><b>📝 보고서</b> 5-1 학습 곡선, 5-2 튜닝 · 튜닝은 검증 자료로만. check는 가장 좋은 설정으로 다시 학습했는지 봐요.</p>
+</section>
+</div>
+<div class="slot" data-i="12" hidden><section id="s5">
+<div class="head">
+<p class="eyebrow">3차시 · 5단계 · 시험 (딱 한 번)</p>
+<h2>정확도 87.4%, 한파와 대설을 가장 많이 헷갈렸어요</h2>
+</div>
+<div class="two">
+<div>
+<table class="mini">
+<tr><th>실제 \ 예측</th><th>호우</th><th>폭염</th><th>한파</th><th>대설</th><th>강풍</th><th>산불</th></tr>
+<tr><th>호우</th><td class="diag">82</td><td>0</td><td>1</td><td>2</td><td>5</td><td>0</td></tr>
+<tr><th>폭염</th><td>2</td><td class="diag">68</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><th>한파</th><td>0</td><td>1</td><td class="diag">47</td><td class="hot">9</td><td>3</td><td>0</td></tr>
+<tr><th>대설</th><td>1</td><td>0</td><td class="hot">8</td><td class="diag">44</td><td>2</td><td>0</td></tr>
+<tr><th>강풍</th><td>4</td><td>0</td><td>0</td><td>1</td><td class="diag">46</td><td>3</td></tr>
+<tr><th>산불</th><td>0</td><td>1</td><td>0</td><td>0</td><td>3</td><td class="diag">46</td></tr>
+</table>
+</div>
+<div>
+<div class="out"><p class="lab">✅ 결과 → check("5") 🎉</p><p class="txt">시험 381개 중 333개 맞힘 = 87.4%<br>재현율: 한파 78.3% · 대설 80.0% (가장 낮음)</p></div>
+<div class="out"><p class="lab">✏️ 내 말로</p><p class="txt">가설 1이 맞았다. 그런데 정확도가 높아도 한파 문자 다섯 개 중 하나는 다른 안내가 나간다.</p></div>
+</div>
+</div>
+<p class="note"><b>⚠️ 한 번만</b> 결과를 보고 설정을 바꿔 다시 시험하지 않아요 · <b>📝 보고서</b> 6-1 정확도, 6-2 혼동행렬, 6-3 재현율</p>
+</section>
+</div>
+<div class="slot" data-i="13" hidden><section id="s6" class="soft">
+<div class="head">
+<p class="eyebrow">3차시 · 6단계 · 틀린 예와 조건 바꾼 시험</p>
+<h2>재해 이름을 지우니 87.4% → 61.4%</h2>
+</div>
+<div class="two">
+<div>
+<div class="vbar">
+<div><p class="v">87.4%</p><div class="b" style="height:87.4%"></div><p class="l">원래 문자</p></div>
+<div><p class="v">79.0%</p><div class="b" style="height:79%"></div><p class="l">앞 40글자만</p></div>
+<div><p class="v">61.4%</p><div class="b" style="height:61.4%; background:#E9873A"></div><p class="l">재해 이름 지움</p></div>
+</div>
+</div>
+<div>
+<div class="prompt"><p class="lab">💬 부탁에 넣은 내 아이디어</p><p class="txt">문자에서 재해 이름을 모두 지우는 함수 no_type_word(t)를 만들어 시험 문자를 바꾸고 정확도를 비교해 줘.</p></div>
+<div class="out"><p class="lab">✏️ 해석</p><p class="txt">판단 근거 1위가 모두 재해 이름(한파: 한파, 동파, 수도관…). 그래도 61.4%는 무작위 16.7%보다 훨씬 높다 → 상황 낱말도 배웠다.</p></div>
+</div>
+</div>
+<p class="note"><b>📝 보고서</b> 6-4 틀린 예와 판단 근거, 6-5 조건 바꾼 시험 · 주제에 맞는 시험은 teacher가 대신 못 해요. 내 탐구의 핵심!</p>
+</section>
+</div>
+<div class="slot" data-i="14" hidden><section id="s7">
+<div class="head">
+<p class="eyebrow">4차시 · 7단계 · 내 말로 해석 쓰기</p>
+<h2>이 단계만은 AI에게 부탁하지 않아요</h2>
+</div>
+<div class="two">
+<div>
+<div class="out"><p class="lab">✏️ REPORT 칸에 내가 쓴 것</p><p class="txt"><b>가설</b> 지구과학의 겨울 기단을 근거로 대설과 한파가 헷갈릴 것이라 예상했다.<br><b>결과</b> 정확도 87.4%. 한파→대설 9개, 대설→한파 8개로 가장 많았다.<br><b>한계</b> 여름 호우 문자에 치우쳤고, 낱말이 함께 나오는 관계를 배운 것이지 기상 원리를 이해한 것은 아니다.</p></div>
+</div>
+<div>
+<div class="prompt"><p class="lab">💬 쓴 뒤에만 보내는 질문</p><p class="txt">내가 쓴 해석이야: (붙여 넣기). 고쳐 쓰지는 말고, 근거가 부족하거나 숫자와 맞지 않는 부분을 질문으로 짚어 줘.</p></div>
+<div class="out"><p class="lab">✅ check("7") 🎉</p><p class="txt">결과에 숫자와 종류 이름이 들어 있어야 통과</p></div>
+</div>
+</div>
+<p class="note"><b>📝 보고서</b> 1-3 가설, 8-1 가설 검증, 8-2 한계 · 숫자는 📋 메모에서 가져와요</p>
+</section>
+</div>
+<div class="slot" data-i="15" hidden><section id="web" class="dark">
+<div class="head">
+<p class="eyebrow">4차시 · W1 · W2 · W3 · 공개하기</p>
+<h2>문자를 넣으면 유형과 쉬운 행동 요령이 나와요</h2>
+</div>
+<div class="two">
+<div>
+<div class="mock"><p class="title">재난문자 쉬운 안내 도우미</p><p class="note">입력: “내일 아침 최저기온 영하 12도, 수도관 동파 주의”</p><p class="result">한파 71%</p><div class="bar" style="background:#E9873A; width:71%"></div><div class="bar" style="background:#E2DACB; width:22%"></div><p class="note">따뜻하게 입고 오래 밖에 있지 마세요. / Dress warmly and limit time outdoors.<br>(연습용 AI라 틀릴 수 있어요. 공식 재난문자를 따르세요.)</p></div>
+</div>
+<div>
+<div class="rows">
+<div class="row" style="background:#24364F; border-color:#3A4B66"><div class="badge">W1</div><p class="body" style="color:#C9D6E3">predict_text: 문자 → 1단계 단어장 → 신경망 → 확률</p></div>
+<div class="row" style="background:#24364F; border-color:#3A4B66"><div class="badge">W2</div><p class="body" style="color:#C9D6E3">HTML 웹앱 파일 만들어 zip으로 제출 → 선생님이 반 전시장에 올림</p></div>
+<div class="row" style="background:#24364F; border-color:#3A4B66"><div class="badge">W3</div><p class="body" style="color:#C9D6E3">선생님이 알려 준 주소를 qr.png로 → 포스터 ⑦칸에</p></div>
+</div>
+</div>
+</div>
+<p class="small"><b>📝 보고서</b> 6-6 웹앱 (화면 캡처) · 웹앱 화면 캡처와 qr.png를 꼭 내려받아 두기 (주소는 계속 열려 있어요)</p>
+</section>
+</div>
+<div class="slot" data-i="16" hidden><section id="next" class="soft">
+<div class="head">
+<p class="eyebrow">매 차시 시작할 때</p>
+<h2>지난 시간에 이어서 하는 법</h2>
+</div>
+<div class="rows">
+<div class="row"><div class="badge blue">1</div><h3>내 사본 열기</h3><p class="body">내 드라이브의 노트북 사본 (선생님 원본 아님)</p></div>
+<div class="row"><div class="badge blue">2</div><h3>파일 다시 올리기</h3><p class="body">Colab을 닫으면 파일이 사라져요. 저장해 둔 raw_data.csv(또는 사진 zip)를 왼쪽 📁에</p></div>
+<div class="row"><div class="badge blue">3</div><h3>모두 실행</h3><p class="body">런타임 → 모두 실행. 지난 시간까지의 칸이 다시 돌아가요</p></div>
+<div class="row"><div class="badge blue">4</div><h3>같은 대화방</h3><p class="body">AI가 헷갈리면 summary() 결과를 붙여 “지금까지 상황이야”</p></div>
+</div>
+<p class="note"><b>발표 날도 똑같이</b> 모두 실행 → W2 · W3 다시 → 새 QR을 포스터에 붙이기</p>
+</section>
+</div>
+<div class="slot" data-i="17" hidden><section id="toreport" style="gap:28px">
+<div class="head">
+<p class="eyebrow">5~6차시 · 보고서</p>
+<h2>노트북 단계 → 보고서 장으로 옮겨요</h2>
+</div>
+<table class="tbl">
+<tr><th>보고서</th><th>쓸 내용</th><th>가져올 곳</th></tr>
+<tr><td class="k">1장 동기와 목적</td><td>SDG와 문제, 탐구 질문, 가설과 교과 근거</td><td>7단계 가설</td></tr>
+<tr><td class="k">2장 데이터</td><td>출처·이용 조건, 수집 방법, 모습, 정리 과정</td><td>A1 · A2 · A3</td></tr>
+<tr><td class="k">3~5장 방법</td><td>숫자로 바꾸기, 신경망 설계, 학습·튜닝</td><td>1 · 2 · 3 · 4단계</td></tr>
+<tr><td class="k">6장 결과</td><td>정확도, 혼동행렬, 재현율, 틀린 예, 조건 바꾼 시험, 웹앱</td><td>5 · 6단계, W1~W3</td></tr>
+<tr><td class="k">7장 바이브 코딩</td><td>내가 정한 것, AI에게 맡긴 것, ⚠️를 고친 과정, teacher</td><td>summary(), 대화</td></tr>
+<tr><td class="k">8장 결론</td><td>가설 검증, 한계, 개선과 SDG 기여</td><td>7단계 결과·한계</td></tr>
+</table>
+<p class="note"><b>보고서 템플릿</b>(구글 문서)을 사본으로 만들어 회색 안내 글을 보며 채워요. AI 문장은 옮기지 않아요.</p>
+</section>
+</div>
+<div class="slot" data-i="18" hidden><section id="talk" class="soft">
+<div class="head">
+<p class="eyebrow">6~7차시 · 포스터 발표</p>
+<h2>A1 포스터 한 장, 2분 설명</h2>
+</div>
+<div class="two">
+<div>
+<div class="out"><p class="lab">포스터 템플릿의 칸 (구글 슬라이드, A1 세로)</p><p class="txt">머리말: 제목 · SDG · 가장 중요한 숫자<br>① 질문과 SDG ② 데이터<br>③ 글을 숫자로 ④ 내 신경망 ⑤ 학습과 튜닝<br>⑥ 결과와 분석 (혼동행렬 · 재현율 · 조건 바꾼 시험)<br>⑦ 내 AI 웹앱 (QR) ⑧ 결론과 한계</p></div>
+<div class="out"><p class="lab">만드는 법</p><p class="txt">템플릿을 사본으로 만들어 [ ] 칸과 점선 상자를 내 내용과 그림으로 바꾸기. 글자는 28pt 이상</p></div>
+</div>
+<div>
+<div class="warn"><p class="lab">발표 날 시작 10분</p><p class="txt">QR이 열리는지 발표 전에 한 번 더 확인. 웹앱 주소는 계속 열려 있어서 포스터를 그대로 전시해도 돼요</p></div>
+<div class="out"><p class="lab">2분 설명 순서</p><p class="txt">① 질문 → 가설 → ② 데이터 → ⑥ 결과 → ⑦ 웹앱 시연 → ⑧ 한계</p></div>
+<div class="out"><p class="lab">친구 포스터를 볼 때</p><p class="txt">QR로 써 보고 ‘가장 설득력 있던 근거 하나’와 ‘더 궁금한 점 하나’ 적기</p></div>
+</div>
+</div>
+</section>
+</div>
+<div class="slot" data-i="19" hidden><section id="done" class="dark">
+<div class="head">
+<p class="eyebrow">7차시 · 제출</p>
+<h2>질문은 내가, 코드는 AI가, 해석은 다시 내가</h2>
+</div>
+<div class="cards">
+<div class="card" style="background:#24364F; border-color:#3A4B66"><p class="tag" style="color:#F2A766">낼 것</p><h3>보고서 · A1 포스터</h3><p class="body" style="color:#C9D6E3">노트북(.ipynb), my_data.csv, 제미나이 대화 전체</p></div>
+<div class="card" style="background:#24364F; border-color:#3A4B66"><p class="tag" style="color:#F2A766">확인할 것</p><h3>숫자는 내 노트북과 같게</h3><p class="body" style="color:#C9D6E3">summary()와 대조, 출처·이용 조건 적기</p></div>
+<div class="card" style="background:#24364F; border-color:#3A4B66"><p class="tag" style="color:#F2A766">지킬 것</p><h3>문장은 내 말로</h3><p class="body" style="color:#C9D6E3">AI 문장 옮기지 않기, teacher 쓴 단계는 솔직하게</p></div>
+</div>
+<div style="display:flex; flex-direction:column">
+<div class="linkrow"><a href="guide.html" target="_top">학생 안내서</a><p class="small">순서, 규칙, 체크리스트, 자주 나오는 말</p></div>
+<div class="linkrow"><a href="https://docs.google.com/document/d/1F8ienxCxaGZj2p0ZsaoVeLPGabpqEYsbgeX_6zWFMMM/edit">보고서 예시</a><p class="small">이 지침서의 예시 학생이 쓴 보고서</p></div>
+<div class="linkrow" style="border-bottom:none"><a href="https://docs.google.com/presentation/d/1piM-fCxveajodeg0RvQElNIS07_CWiUce7FOCC8tRNI/edit">포스터 예시</a><p class="small">이 예시 학생의 A1 포스터 (구글 슬라이드)</p></div>
+</div>
+</section>
+</div>
+</div></div>
+<div class="ctrl"><button id="prev" type="button">← 이전</button><span id="count" aria-live="polite"></span><button id="next" type="button">다음 →</button></div>
+<script>
+const slots=[...document.querySelectorAll('.slot')], n=slots.length, wrap=document.getElementById('wrap'), stage=document.getElementById('stage');
+let i=0;
+function fit(){ stage.style.transform='scale('+(wrap.clientWidth/1920)+')'; }
+function go(k){ i=Math.max(0,Math.min(n-1,k)); slots.forEach((s,j)=>s.hidden=j!==i); document.getElementById('count').textContent=(i+1)+' / '+n;
+  document.getElementById('prev').disabled=i===0; document.getElementById('next').disabled=i===n-1; if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1)); }
+document.getElementById('prev').onclick=()=>go(i-1); document.getElementById('next').onclick=()=>go(i+1);
+addEventListener('keydown',e=>{ if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(i+1);} if(e.key==='ArrowLeft'||e.key==='PageUp')go(i-1); });
+let sx=null; wrap.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+wrap.addEventListener('touchend',e=>{ if(sx===null)return; const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40)go(i+(dx<0?1:-1)); sx=null; });
+wrap.addEventListener('click',e=>{ if(e.target.closest('a'))return; const r=wrap.getBoundingClientRect(); go(i+((e.clientX-r.left)>r.width/2?1:-1)); });
+addEventListener('resize',fit); addEventListener('hashchange',()=>go((parseInt(location.hash.slice(1))||1)-1)); fit(); go((parseInt(location.hash.slice(1))||1)-1);
+</script></body></html>

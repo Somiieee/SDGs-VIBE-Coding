@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HTML 웹앱 기술 안내 (교사용) · 바이브 코딩 딥러닝</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FFFBF1;--cream2:#FBF3E4;--ink:#4A1027;--maroon:#6B1A35;--body:#5B3A45;--pink:#F7BFE0;--lime:#D9F27A;--blue:#C3D3F4;--line:#E9D9CF}
+*{box-sizing:border-box}
+body{margin:0;background:var(--pink);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;line-height:1.75;font-size:16.5px;word-break:keep-all}
+.frame{max-width:920px;margin:0 auto;background:var(--cream);min-height:100vh}
+header{position:sticky;top:0;z-index:5;background:rgba(255,251,241,.95);backdrop-filter:blur(6px);border-bottom:1.5px solid var(--maroon);padding:12px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header a{color:var(--maroon);font-weight:700;text-decoration:none;font-size:14px;border:1.5px solid var(--maroon);border-radius:999px;padding:6px 14px}
+header a:hover{background:var(--lime)}
+header .t{margin-left:auto;font-family:'Gowun Batang',serif;font-weight:700;color:var(--maroon)}
+main{padding:40px 48px 80px}
+h1{font-family:'Gowun Batang',serif;font-size:clamp(26px,4vw,36px);line-height:1.35;color:var(--maroon);margin:0 0 24px}
+h2{font-size:23px;color:var(--maroon);margin:48px 0 14px;padding-top:14px;border-top:1.5px solid var(--maroon)}
+h3{font-size:18px;margin:28px 0 10px}
+p,li{color:var(--body)}
+strong{color:var(--ink)}
+a{color:var(--maroon)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;background:rgba(107,26,53,.08);padding:1px 6px;border-radius:6px;font-size:.88em}
+.code{position:relative;margin:14px 0}
+pre{background:#2B0E1A;color:#FBEFF4;padding:18px 18px 18px;border-radius:14px;overflow:auto;font-size:13.5px;line-height:1.6;white-space:pre-wrap;word-break:break-all;margin:0}
+pre code{background:none;padding:0;color:inherit}
+.copy{position:absolute;top:8px;right:8px;border:1.5px solid var(--lime);background:var(--lime);color:var(--maroon);font:inherit;font-size:12px;font-weight:700;border-radius:999px;padding:4px 12px;cursor:pointer;min-height:32px}
+.tw{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:15px;background:#fff}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{background:var(--blue);color:var(--maroon)}
+ol,ul{padding-left:24px}
+li{margin:4px 0}
+footer{padding:24px 48px;font-size:13px;color:var(--body);border-top:1px solid var(--line)}
+@media (max-width:640px){main{padding:28px 20px 60px}header{padding:10px 16px}footer{padding:20px}}
+@media print{header,.copy{display:none}body{background:#fff}.frame{max-width:none}}
+</style></head>
+<body><div class="frame">
+<header><a href="index.html#teacher">← 교육자료 사이트</a><span class="t">HTML 웹앱 기술 안내 (교사용)</span></header>
+<main><h1>HTML 웹앱 기술 안내 (교사용)</h1>
+<p>학생 웹앱은 <strong>서버 없이 브라우저 안에서 신경망을 계산하는 HTML 파일</strong>이에요. 그래서 GitHub Pages 같은 무료 정적 호스팅에 올려 두면 노트북을 꺼도, 학기가 끝나도 계속 열려 있어 포스터 QR이 깨지지 않아요. 이 페이지는 그 원리와 확인 방법을 정리한 것이에요.</p>
+<h2>왜 HTML 방식인가</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>방식</th>
+<th>계속 열림</th>
+<th>비용</th>
+<th>학생 계정</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>그라디오 share 링크</td>
+<td>아니요 (노트북이 켜져 있을 때만, 최대 72시간)</td>
+<td>무료</td>
+<td>필요 없음</td>
+<td>수업 중 시연용</td>
+</tr>
+<tr>
+<td>허깅페이스 그라디오 Space</td>
+<td>예</td>
+<td>유료 요금제 필요</td>
+<td>필요</td>
+<td>현재 무료 계정으로는 어려움</td>
+</tr>
+<tr>
+<td><strong>HTML + GitHub Pages (선생님 저장소)</strong></td>
+<td>예</td>
+<td>무료 (공개 저장소)</td>
+<td>필요 없음</td>
+<td>이 수업의 기본 방식</td>
+</tr>
+</tbody>
+</table></div>
+<p>GitHub Pages는 공개 저장소면 무료이고, 사이트 하나에 1GB까지 올릴 수 있어요. 학생 웹앱은 글 모델 1MB 안팎, 사진 모델 10~20MB라서 한 학년 정도가 들어가요.</p>
+<h2>글 웹앱: model.json</h2>
+<p>1단계의 TF-IDF(글자 조각 <code>char_wb</code>, 2~3글자)와 2단계 신경망의 가중치를 JSON 파일 하나로 내보내고, <code>index.html</code>의 자바스크립트가 사이킷런과 똑같은 방법으로 계산해요.</p>
+<ol>
+<li>글을 소문자로 바꾸고 띄어쓰기로 낱말을 나눈다.</li>
+<li>낱말 앞뒤에 공백을 붙이고 2~3글자 조각으로 자른다. 낱말이 조각보다 짧으면 낱말 전체 하나만 쓴다.</li>
+<li>조각 수로 (1 + ln(개수)) × idf를 구하고 L2 정규화한다.</li>
+<li>
+<p>Dense 층을 차례로 계산한다 (relu → softmax).</p>
+</li>
+<li>
+<p>model.json 안의 <code>tests</code>(시험 글 5개와 파이썬 확률)로 페이지가 열릴 때 스스로 검산하고, 화면 아래에 "검산 통과"를 보여 줘요.</p>
+</li>
+<li>1단계를 형태소(word) 방식으로 한 학생은 브라우저에서 형태소 분석을 할 수 없어서, 웹앱용 글자 조각 모델을 한 번 더 학습해 내보내요. 보고서에는 원래 모델 숫자를 쓰게 지도해 주세요.</li>
+</ol>
+<h2>사진 웹앱: model.onnx</h2>
+<p>전처리 → 1단계의 사전학습 모델(base) → 학생 신경망을 keras 모델 하나로 묶어 ONNX 파일로 저장하고, 브라우저에서는 onnxruntime-web이 계산해요.</p>
+<ul>
+<li>입력: 사진 크기(보통 224×224) × RGB, 숫자 0~255 그대로. 전처리(예: −1~1로 바꾸기)는 모델 안에 들어 있어요.</li>
+<li>keras 3의 <code>model.export(..., format="onnx")</code>를 쓰고, tf2onnx가 필요해요.</li>
+<li><strong>저장 전에 예측을 한 번 해야 해요.</strong> 바로 export하면 "The model provided has never called" 오류가 나요. 노트북 부탁 문장에 반영되어 있어요.</li>
+<li>MobileNetV2 기준 파일 크기는 약 9MB였어요. GitHub 웹 업로드는 파일 하나에 25MB까지예요.</li>
+</ul>
+<h2>노트북이 확인해 주는 것</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>도구</th>
+<th>하는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>check("W2")</code></td>
+<td>파일이 딱 두 개인지, 웹앱 계산이 파이썬 신경망과 같은 답인지(차이 0.01, 사진은 0.03 안쪽), 25MB 아래인지, API 인증키가 들어 있지 않은지</td>
+</tr>
+<tr>
+<td><code>teacher("W2")</code></td>
+<td>기준 방법으로 웹앱 두 파일을 만들어 줘요. 사진 주제는 학생 전처리(−1~1, 0~1, 0~255, caffe)를 스스로 찾아 맞춰요</td>
+</tr>
+<tr>
+<td><code>preview_webapp()</code></td>
+<td>코랩에서 웹앱을 새 창으로 열어 미리 보기</td>
+</tr>
+<tr>
+<td><code>make_zip("2-1-07")</code></td>
+<td>W2를 다시 확인한 뒤 webapp 폴더를 반-번호.zip으로 묶어 내려받기</td>
+</tr>
+<tr>
+<td><code>check("W3")</code></td>
+<td>qr.png 안의 주소가 선생님이 알려 준 WEBAPP_URL과 같은지</td>
+</tr>
+</tbody>
+</table></div>
+<h2>시험한 결과</h2>
+<p>이 방식은 노트북 6개를 처음부터 끝까지 실행하고, 만든 웹앱을 휴대폰 크기의 실제 브라우저(Chromium)로 열어 시험했어요.</p>
+<ul>
+<li>글 웹앱: 브라우저 확률과 파이썬 확률이 사실상 같았고(차이 0.0000001 이하), 화면에 "검산 통과 5/5"가 나왔어요.</li>
+<li>사진 웹앱: 브라우저와 파이썬(onnxruntime)의 차이가 0.0000001 이하였어요. 실제 MobileNetV2 구조로도 차이 0이었어요.</li>
+<li>일부러 망가뜨린 파일(가중치 바꿔치기, 파일 추가, 인증키 포함, 전처리 누락)은 <code>check("W2")</code>가 모두 잡아냈어요.</li>
+<li>실제 제미나이가 부탁 문장대로 코드를 짜는지는 수업 전에 한 번 돌려 보시길 권해요.</li>
+</ul>
+<h2>올리는 곳</h2>
+<p>학생 웹앱은 선생님의 반 웹앱 저장소에 반-번호 폴더로 올려요. 만드는 방법과 점검표는 교사용 페이지의 "반 웹앱 저장소"와 <a href="https://drive.google.com/file/d/17zkk-JDQy8yY2A57PvAgR352tAUZptyH/view" target="_blank" rel="noopener">템플릿 zip</a>의 README에 있어요.</p></main>
+<footer>바이브 코딩으로 학생들과 딥러닝 만들기 · 2026</footer>
+</div><script>
+document.querySelectorAll('pre').forEach(p=>{const w=document.createElement('div');w.className='code';p.parentNode.insertBefore(w,p);w.appendChild(p);
+const b=document.createElement('button');b.className='copy';b.textContent='복사';b.onclick=async()=>{const t=p.innerText;try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}b.textContent='복사됨';setTimeout(()=>b.textContent='복사',1500)};w.appendChild(b)});
+</script></body></html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>학생 안내서 · 바이브 코딩 딥러닝</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FFFBF1;--cream2:#FBF3E4;--ink:#4A1027;--maroon:#6B1A35;--body:#5B3A45;--pink:#F7BFE0;--lime:#D9F27A;--blue:#C3D3F4;--line:#E9D9CF}
+*{box-sizing:border-box}
+body{margin:0;background:var(--pink);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;line-height:1.75;font-size:16.5px;word-break:keep-all}
+.frame{max-width:920px;margin:0 auto;background:var(--cream);min-height:100vh}
+header{position:sticky;top:0;z-index:5;background:rgba(255,251,241,.95);backdrop-filter:blur(6px);border-bottom:1.5px solid var(--maroon);padding:12px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header a{color:var(--maroon);font-weight:700;text-decoration:none;font-size:14px;border:1.5px solid var(--maroon);border-radius:999px;padding:6px 14px}
+header a:hover{background:var(--lime)}
+header .t{margin-left:auto;font-family:'Gowun Batang',serif;font-weight:700;color:var(--maroon)}
+main{padding:40px 48px 80px}
+h1{font-family:'Gowun Batang',serif;font-size:clamp(26px,4vw,36px);line-height:1.35;color:var(--maroon);margin:0 0 24px}
+h2{font-size:23px;color:var(--maroon);margin:48px 0 14px;padding-top:14px;border-top:1.5px solid var(--maroon)}
+h3{font-size:18px;margin:28px 0 10px}
+p,li{color:var(--body)}
+strong{color:var(--ink)}
+a{color:var(--maroon)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;background:rgba(107,26,53,.08);padding:1px 6px;border-radius:6px;font-size:.88em}
+.code{position:relative;margin:14px 0}
+pre{background:#2B0E1A;color:#FBEFF4;padding:18px 18px 18px;border-radius:14px;overflow:auto;font-size:13.5px;line-height:1.6;white-space:pre-wrap;word-break:break-all;margin:0}
+pre code{background:none;padding:0;color:inherit}
+.copy{position:absolute;top:8px;right:8px;border:1.5px solid var(--lime);background:var(--lime);color:var(--maroon);font:inherit;font-size:12px;font-weight:700;border-radius:999px;padding:4px 12px;cursor:pointer;min-height:32px}
+.tw{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:15px;background:#fff}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{background:var(--blue);color:var(--maroon)}
+ol,ul{padding-left:24px}
+li{margin:4px 0}
+footer{padding:24px 48px;font-size:13px;color:var(--body);border-top:1px solid var(--line)}
+@media (max-width:640px){main{padding:28px 20px 60px}header{padding:10px 16px}footer{padding:20px}}
+@media print{header,.copy{display:none}body{background:#fff}.frame{max-width:none}}
+</style></head>
+<body><div class="frame">
+<header><a href="index.html#student">← 교육자료 사이트</a><span class="t">학생 안내서</span></header>
+<main><h1>학생 안내서: 바이브 코딩으로 SDG 문제를 푸는 AI 도구 만들기</h1>
+<h2>한눈에 보기</h2>
+<p>SDG가 말하는 문제 하나를 골라, 그 문제를 줄이는 <strong>AI 도구(웹앱)</strong>를 직접 만듭니다. 도구는 글을 읽는 AI(자연어처리)나 사진을 보는 AI(이미지처리)이고, 안에는 인공신경망이 들어 있어요.</p>
+<p>코드는 학교 계정 <strong>무료 제미나이</strong>가 써 줍니다. 나는 무엇을 부탁할지 정하고, 결과를 교과 개념으로 해석하고, 보고서에 내 말로 씁니다.</p>
+<ol>
+<li><strong>질문 세우기</strong>: 주제를 고르고, 교과 개념을 근거로 가설을 쓴다.</li>
+<li><strong>모으기</strong> (A1~A3단계): 데이터를 받고, 살펴보고, 정리해서 학습 80% · 시험 20%로 나눈다.</li>
+<li><strong>숫자로 바꾸기</strong> (1단계): 글은 TF-IDF, 사진은 미리 학습된 모델로 숫자 표를 만든다.</li>
+<li><strong>학습하고 분석하기</strong> (2~7단계): 신경망을 설계·학습·튜닝하고, 시험을 딱 한 번 보고, 틀린 예를 분석하고, 내 말로 해석을 쓴다.</li>
+<li><strong>공개하기</strong> (W1~W3단계): HTML 웹앱 파일을 만들어 제출하면 선생님이 반 웹앱 전시장에 올려 주고, 그 주소로 QR 코드를 만들어 친구가 직접 써 보게 한다.</li>
+<li><strong>옮기기</strong>: 보고서와 A1 포스터를 템플릿에 채우고 포스터로 발표한 뒤, 제미나이 대화 전체를 제출한다.</li>
+</ol>
+<p>모든 부탁 문장은 노트북의 단계 카드(💬 부탁)에 들어 있어요. 이 안내서는 순서와 규칙을 설명합니다.</p>
+<h2>주제 고르기</h2>
+<p>예시 주제 4개(EASY) 중 하나를 고르거나, 자유 주제(CHALLENGE)로 내 주제를 정합니다. 주제마다 노트북이 따로 있고, 단계 이름과 순서는 모두 같아요. 노트북을 연 뒤 <strong>파일 → 드라이브에 사본 저장</strong>을 눌러 내 것으로 만들어요.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>길</th>
+<th>주제</th>
+<th>만드는 것</th>
+<th>데이터</th>
+<th>SDG</th>
+<th>융합 교과</th>
+<th>노트북</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EASY</td>
+<td>위성 사진 토지 감시</td>
+<td>위성 사진 → 숲·농지·주거지 등 + 그 땅의 의미</td>
+<td>EuroSAT (위성 사진 27,000장, MIT)</td>
+<td>15.1 · 11.3</td>
+<td>지구과학, 지리</td>
+<td><a href="https://colab.research.google.com/drive/1qnoeE9Bg_S82Im2puaciL5Pa0ljrPn9X" target="_blank" rel="noopener">코랩에서 열기</a></td>
+</tr>
+<tr>
+<td>EASY</td>
+<td>분리배출 도우미</td>
+<td>쓰레기 사진 → 재질 + 배출 방법</td>
+<td>TrashNet (2,527장, MIT) + 직접 찍은 사진</td>
+<td>12.5</td>
+<td>화학, 물리</td>
+<td><a href="https://colab.research.google.com/drive/1QQBMtRwer_h-nGkm0OHxNTjbu2aryUoj" target="_blank" rel="noopener">코랩에서 열기</a></td>
+</tr>
+<tr>
+<td>EASY</td>
+<td>재난문자 쉬운 안내</td>
+<td>재난문자 → 재난 유형 + 쉬운 행동 요령(한·영)</td>
+<td>긴급재난문자 API (공공누리 제3유형)</td>
+<td>11.5 · 10.2 · 13.1</td>
+<td>지구과학, 국어, 영어</td>
+<td><a href="https://colab.research.google.com/drive/1s-ssoqx59orEmA8JVhEZYIXRhBsTpZw5" target="_blank" rel="noopener">코랩에서 열기</a></td>
+</tr>
+<tr>
+<td>EASY</td>
+<td>댓글 혐오 표현 감지</td>
+<td>댓글 → 혐오 표현 가능성 + 다시 생각하기 안내</td>
+<td>K-MHaS (뉴스 댓글, CC BY-SA 4.0)</td>
+<td>16.1 · 10.3</td>
+<td>국어, 통합사회</td>
+<td><a href="https://colab.research.google.com/drive/1sYc7SVq10IwHL7CJe5KMbC19ZKOH9vxx" target="_blank" rel="noopener">코랩에서 열기</a></td>
+</tr>
+<tr>
+<td>CHALLENGE</td>
+<td>글 분류 자유 주제</td>
+<td>내가 정한 글 → 내가 정한 종류</td>
+<td>파일, 공공 API, 웹 수집 중 선택</td>
+<td>직접 정함</td>
+<td>직접 정함</td>
+<td><a href="https://colab.research.google.com/drive/1LVFyoSMmV8AzO_JEdDlmSw1-fPlHO-Rk" target="_blank" rel="noopener">코랩에서 열기</a></td>
+</tr>
+<tr>
+<td>CHALLENGE</td>
+<td>사진 분류 자유 주제</td>
+<td>내가 정한 사진 → 내가 정한 종류</td>
+<td>직접 찍은 사진, 공개 데이터셋 중 선택</td>
+<td>직접 정함</td>
+<td>직접 정함</td>
+<td><a href="https://colab.research.google.com/drive/1udoNRNQpjVqfUn_tg8n3BbpoBRYM2qk4" target="_blank" rel="noopener">코랩에서 열기</a></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>혐오 표현 주제</strong>는 데이터에 실제 욕설이 있어서, 선생님께 허락을 받고 사전 안내를 들은 학생만 합니다.</li>
+<li><strong>자유 주제(CHALLENGE)</strong>는 노트북 맨 위의 주제 신청 표를 채워, 1차시에 데이터 출처와 이용 조건을 선생님께 보여 드리고 허락을 받습니다. 평가 기준은 EASY와 같아요.</li>
+</ul>
+<p><strong>탐구 질문을 내 것으로 만드는 틀.</strong> 주제가 같아도 질문과 가설은 사람마다 달라야 합니다.</p>
+<ol>
+<li><strong>무엇을 나눌까</strong>: 나눌 종류를 내가 고른다. (예: 숲·초지·농지·주거지, 호우·한파·대설…)</li>
+<li><strong>왜 중요할까</strong>: SDG 세부 목표의 문장을 찾아 내 문제와 잇는다.</li>
+<li><strong>무엇을 예상할까</strong>: 교과 개념을 근거로 "어떤 종류끼리 헷갈릴 것이다"를 쓴다. (예: 대설과 한파는 같은 겨울 기단에서 함께 일어나 헷갈릴 것이다)</li>
+<li><strong>무엇을 바꿔 시험할까</strong>: 6단계에서 조건을 바꿔 볼 것을 정한다. (예: 재해 이름을 지우면? 흐린 사진이면? 학교에서 찍은 사진이면?)</li>
+</ol>
+<h2>차시별 순서</h2>
+<p>노트북 단계를 4차시에 거의 끝내고, 5~8차시에 보고서·포스터·발표로 옮깁니다. 차시가 끝날 때 '끝나면 남는 것'이 있는지 확인하세요.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>차시</th>
+<th>할 일</th>
+<th>노트북 단계</th>
+<th>끝나면 남는 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>주제·질문·가설 정하기, 노트북 준비, 대화방 열기, 데이터 모으기</td>
+<td>A1 · A2 · A3</td>
+<td>raw_data.csv(또는 사진), 출처·이용 조건, 학습·시험 나눠짐</td>
+</tr>
+<tr>
+<td>2</td>
+<td>숫자로 바꾸고 신경망 설계·학습</td>
+<td>1 · 2 · 3</td>
+<td>단어장(특징) 크기, 모델 표, 학습 곡선</td>
+</tr>
+<tr>
+<td>3</td>
+<td>튜닝, 시험 한 번, 틀린 예와 조건 바꾼 시험</td>
+<td>4 · 5 · 6</td>
+<td>튜닝 표, 정확도·혼동행렬, robust.png</td>
+</tr>
+<tr>
+<td>4</td>
+<td>내 말로 해석 쓰기, HTML 웹앱 만들어 제출</td>
+<td>7 · W1 · W2</td>
+<td>REPORT, 웹앱 zip 제출</td>
+</tr>
+<tr>
+<td>5</td>
+<td>보고서 1~5장 쓰기</td>
+<td>(summary()로 숫자 확인)</td>
+<td>보고서 절반</td>
+</tr>
+<tr>
+<td>6</td>
+<td>보고서 6~8장, 웹앱 주소로 QR 만들기, A1 포스터 만들기</td>
+<td>W3</td>
+<td>보고서 완성, qr.png, A1 포스터 인쇄</td>
+</tr>
+<tr>
+<td>7 · 8</td>
+<td>포스터 발표, 친구 AI 써 보기, 제출</td>
+<td></td>
+<td>발표, 제미나이 대화 전체 제출</td>
+</tr>
+</tbody>
+</table></div>
+<p>한 차시에 단계를 다 못 끝내도 괜찮아요. 다음 차시 처음 10분에 이어서 하고, 그래도 막히면 아래 teacher를 씁니다.</p>
+<h2>시작하기와 한 단계 하는 법</h2>
+<p><strong>1차시 첫 10분: 노트북과 대화방 준비</strong></p>
+<ol>
+<li>내 주제 노트북을 Colab에서 열고 <code>파일 → 드라이브에 사본 저장</code>을 누른다.</li>
+<li>사진 노트북은 <code>런타임 → 런타임 유형 변경 → T4 GPU</code>를 고른다(무료).</li>
+<li><strong>0번 준비 칸</strong>을 실행만 한다. 안의 코드는 고치지 않는다.</li>
+<li><strong>1번 설정 칸</strong>에서 나눌 종류(CLASSES), 웹앱 안내 문장(INFO), 프로젝트 제목을 내 것으로 고치고 실행한다.</li>
+<li>학교 계정 제미나이에서 <strong>새 대화방을 하나</strong> 열고, 노트북 맨 위의 <strong>첫 메시지</strong>를 복사해 보낸다(설정 칸 내용을 함께 붙여 넣기). 대화방 이름은 <code>SDG AI 프로젝트_출석번호</code>로 바꾼다.</li>
+</ol>
+<p><strong>한 단계 = 늘 같은 다섯 동작</strong></p>
+<ol>
+<li><strong>카드 읽기</strong>: 🎯 목표와 ✅ 나와야 할 것을 먼저 읽는다.</li>
+<li><strong>부탁 보내기</strong>: 💬 부탁을 통째로 복사해 대화방에 보낸다.</li>
+<li><strong>붙여 실행</strong>: 받은 코드를 👉 칸에 붙여 넣고 실행한다.</li>
+<li><strong>확인</strong>: <code>check("단계")</code>를 실행해 🎉가 나오는지 본다.</li>
+<li><strong>이해하고 적기</strong>: 🔍 이해 질문을 하나 이상 보내고, 📋 메모의 숫자를 보고서 메모에 옮긴다.</li>
+</ol>
+<p><strong>check와 teacher는 무엇을 하나요?</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>나오는 것</th>
+<th>뜻</th>
+<th>내가 할 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🎉 통과</td>
+<td>내 결과가 조건을 모두 지켰다 (코드 모양은 달라도 됨)</td>
+<td>다음 단계로</td>
+</tr>
+<tr>
+<td>⚠️ 경고</td>
+<td>시험 자료가 새어 들어갔다, 변수 이름이 다르다 같은 문제를 찾았다</td>
+<td>⚠️ 문장을 그대로 대화방에 붙여 고쳐 달라고 한다</td>
+</tr>
+<tr>
+<td>🆘 <code>teacher("단계")</code></td>
+<td>세 번 고쳐도 안 될 때 선생님 코드가 그 단계를 대신한다</td>
+<td>다음 단계는 이어서 할 수 있다. 쓴 기록이 남으니 보고서 7장에 솔직하게 쓴다</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>teacher는 이미 통과한 단계에서는 아무것도 하지 않아요. 내 결과를 덮어쓰지 않습니다.</li>
+<li>teacher("A1")은 인터넷에서 데이터를 대신 모아 주지 않아요. 선생님이 나눠 준 <strong>백업 파일</strong>(CSV 또는 사진 zip)을 왼쪽 📁에 올린 뒤 실행해야 하고, 출처(SOURCE)·이용 조건(LICENSE)은 직접 씁니다.</li>
+<li>teacher("7")은 해석을 대신 쓰지 않고 쓰는 틀만 보여 줘요.</li>
+<li>teacher는 기본 방법만 써요. 주제에 맞는 시험(예: 재해 이름 지우기)은 내가 AI와 해야 보고서에 쓸 수 있어요.</li>
+</ul>
+<p><strong>다음 시간에 이어서 할 때</strong></p>
+<ol>
+<li>내 드라이브의 노트북 사본을 연다.</li>
+<li>Colab을 닫으면 파일이 사라져요. 저장해 둔 raw_data.csv(또는 사진 zip)를 왼쪽 📁에 다시 올린다.</li>
+<li><code>런타임 → 모두 실행</code>을 눌러 지난 시간까지의 칸을 다시 실행한다.</li>
+<li>같은 대화방에서 이어 간다. AI가 앞 내용을 헷갈리면 <code>summary()</code> 결과를 복사해 "지금까지 상황이야"라고 붙여 넣는다.</li>
+</ol>
+<h2>웹앱 만들기와 QR (W2 · W3)</h2>
+<p>웹앱은 <strong>HTML 파일로 만들어 선생님께 제출</strong>하고, 선생님이 반 웹앱 전시장에 올려 주면 그 주소로 <strong>QR을 만들어 포스터에 붙여요.</strong> GitHub 가입은 필요 없고, 수업이 끝나도 계속 열려 있어요.</p>
+<ol>
+<li><strong>W2</strong>: 노트북 W2 카드의 부탁으로 <code>webapp</code> 폴더에 <code>index.html</code>과 모델 파일(글: <code>model.json</code>, 사진: <code>model.onnx</code>)을 만든다. <code>check("W2")</code>가 파이썬과 같은 답을 내는지 확인해 준다.</li>
+<li><strong>미리 보기</strong>: <code>preview_webapp()</code>으로 코랩에서 웹앱을 열어 본다. 글 주제는 화면 아래 "검산 통과"를 확인한다.</li>
+<li><strong>제출</strong>: <code>make_zip("2-1-07")</code>(내 반-번호)로 만든 zip을 클래스룸 '웹앱 제출'에 낸다.</li>
+<li><strong>W3</strong>: 선생님이 알려 준 주소를 <code>WEBAPP_URL</code>에 넣고 QR을 만들어 포스터 ⑦칸에 붙인다. 주소도 글자로 적는다.</li>
+</ol>
+<p>댓글 혐오 표현 주제는 공개 웹앱을 만들지 않아요. 수업 중 그라디오로만 시연하고, 포스터 ⑦칸에는 화면 캡처를 넣어요. 자세한 방법은 <a href="webapp-guide.html">웹앱 만들기와 QR 안내</a>와 <a href="carousel.html">따라 하기 캐러셀</a>을 보세요.</p>
+<h2>규칙</h2>
+<p><strong>AI 사용 규칙: 무료 제미나이 · 대화방 하나 · 대화 전체 제출</strong></p>
+<ol>
+<li>학교 계정의 제미나이 앱(gemini.google.com)만 씁니다. 유료 기능, 다른 AI, Colab 안의 AI 버튼은 쓰지 않아요.</li>
+<li>1차시에 연 <strong>대화방 하나</strong>를 끝까지 씁니다. 사용량 제한에 걸려도 새 대화방을 열지 말고 기다리거나 teacher로 넘어갑니다. 어쩔 수 없이 새로 열었다면 선생님께 말하고 두 대화를 모두 냅니다.</li>
+<li>대화에 <strong>이름·학번·학교·얼굴 사진</strong> 같은 개인정보를 쓰지 않아요.</li>
+<li>보고서 문장을 AI에게 대신 쓰게 하지 않고, AI의 문장을 보고서에 옮기지 않아요. 7단계는 내가 먼저 쓰고, 그다음에만 "고치지 말고 근거가 부족한 곳을 질문으로 짚어 줘"라고 물어봅니다.</li>
+<li>마지막에 <strong>대화 전체</strong>를 선생님이 안내한 방법(공유 링크 또는 PDF)으로 제출합니다.</li>
+</ol>
+<p><strong>데이터·사진 규칙</strong></p>
+<ol>
+<li><strong>이용 조건 확인</strong>: 라이선스를 읽고 설정 칸의 SOURCE·LICENSE에 적는다. 보고서 2-1과 포스터 아래쪽에 그대로 쓴다.</li>
+<li><strong>천천히 요청</strong>: 웹 요청 사이에는 1초 이상 쉬고, 받은 데이터는 파일로 저장해 다시 받지 않는다.</li>
+<li><strong>개인정보 금지</strong>: SNS 글, 사람 얼굴이나 이름표가 나오는 사진은 모으지 않는다.</li>
+<li><strong>아무 사진이나 내려받지 않기</strong>: 공개 데이터나 내가 찍은 사진만 쓴다. 지도 서비스 화면 캡처는 쓰지 않는다.</li>
+<li><strong>백업 파일 받아 두기</strong>: API나 내려받기가 막히면 선생님의 백업 파일로 이어 간다.</li>
+</ol>
+<p><strong>주제별 특별 규칙</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>주제</th>
+<th>꼭 지킬 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>재난문자</td>
+<td>인증키(API_KEY)는 설정 칸에만 넣고 대화방·보고서·웹앱에 쓰지 않는다. 실종자 안내처럼 사람 정보가 담긴 문자는 지운다.</td>
+</tr>
+<tr>
+<td>댓글 혐오 표현</td>
+<td>화면에는 앞 14글자만 보여 준다. 혐오 문장을 새로 만들지 않는다. 웹앱에 예시 문장을 넣지 않는다. 데이터를 퍼뜨리지 않는다. 공개 웹앱을 만들지 않는다.</td>
+</tr>
+<tr>
+<td>분리배출</td>
+<td>사람이 나오지 않게 찍는다. 직접 찍은 사진은 zip으로 내려받아 둔다.</td>
+</tr>
+<tr>
+<td>위성 사진</td>
+<td>직접 구한 위성 사진을 더할 때는 이용 조건을 먼저 선생님께 보여 드린다.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>보고서와 발표</h2>
+<p>보고서는 구글 문서(또는 한글) 템플릿, 포스터는 구글 슬라이드(A1 크기) 템플릿을 <code>파일 → 사본 만들기</code>로 내 드라이브에 복사해 채웁니다. 예시는 재난문자 주제이고, 숫자는 설명을 위한 가상 수치예요.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>자료</th>
+<th>템플릿 (내가 채울 것)</th>
+<th>예시 (다 채운 모습)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>보고서</td>
+<td><a href="https://docs.google.com/document/d/1XMI22On8yz7rbQcibwSQFykLI3S3jf1Tv3xd0wvx0c4/view" target="_blank" rel="noopener">보고서 템플릿 (구글 문서)</a> · <a href="https://drive.google.com/file/d/1ZIzXQTXdBipDaosOAy2acwuKSoHW1Brc/view" target="_blank" rel="noopener">한글</a></td>
+<td><a href="https://docs.google.com/document/d/1F8ienxCxaGZj2p0ZsaoVeLPGabpqEYsbgeX_6zWFMMM/view" target="_blank" rel="noopener">보고서 예시 (구글 문서)</a> · <a href="https://drive.google.com/file/d/1fNHYfM8XsmfAMtvldezD33kSfF_KpVRD/view" target="_blank" rel="noopener">한글</a></td>
+</tr>
+<tr>
+<td>A1 포스터 (구글 슬라이드, 59.4×84.1cm)</td>
+<td><a href="https://docs.google.com/presentation/d/1psmxv6QUzanovBUHJ_P1Kz91ZcRe_UYBQeE9stxzmpI/edit?usp=sharing" target="_blank" rel="noopener">A1 포스터 템플릿</a></td>
+<td><a href="https://docs.google.com/presentation/d/1piM-fCxveajodeg0RvQElNIS07_CWiUce7FOCC8tRNI/edit?usp=sharing" target="_blank" rel="noopener">A1 포스터 예시</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>보고서의 각 장은 노트북의 어느 단계에서 오나요?</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>보고서</th>
+<th>쓸 내용</th>
+<th>가져올 곳</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1장 탐구 동기와 목적</td>
+<td>SDG와 문제 상황, 탐구 질문, 가설과 교과 근거</td>
+<td>7단계 REPORT["가설"]</td>
+</tr>
+<tr>
+<td>2장 데이터</td>
+<td>출처와 이용 조건, 수집 방법, 데이터 모습, 정리 과정</td>
+<td>A1 · A2 · A3</td>
+</tr>
+<tr>
+<td>3장 숫자로 바꾸는 방법</td>
+<td>TF-IDF 또는 전이학습의 뜻, 고른 이유</td>
+<td>1단계</td>
+</tr>
+<tr>
+<td>4장 신경망 설계</td>
+<td>층 구성표, 파라미터 수 계산, 로지스틱 회귀와 비교</td>
+<td>2단계</td>
+</tr>
+<tr>
+<td>5장 학습과 튜닝</td>
+<td>학습 곡선 해석, 비교표와 선택 이유</td>
+<td>3 · 4단계</td>
+</tr>
+<tr>
+<td>6장 결과</td>
+<td>정확도, 혼동행렬, 종류별 재현율, 틀린 예와 판단 근거, 조건 바꾼 시험, 웹앱</td>
+<td>5 · 6단계, W1~W3</td>
+</tr>
+<tr>
+<td>7장 바이브 코딩 과정</td>
+<td>내가 정한 것과 AI에게 맡긴 것, 막혔던 곳과 해결, teacher 사용</td>
+<td>summary(), 대화 기록</td>
+</tr>
+<tr>
+<td>8장 결론</td>
+<td>가설 검증, 한계, 개선 방향과 SDG 기여</td>
+<td>7단계 REPORT["결과"], ["한계"]</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>발표 날 챙길 것</strong></p>
+<ul>
+<li>웹앱 주소는 선생님이 올린 뒤 계속 열려 있어요. 발표 전에 휴대폰으로 포스터 ⑦칸의 QR을 한 번 찍어 열리는지 확인한다.</li>
+<li>포스터 앞 2분 설명: ①질문 → 가설 → ②데이터 → ⑥결과 → ⑦웹앱 시연 → ⑧한계 순서로 칸을 짚으며 말한다. 인쇄 전에 파일 → 다운로드 → PDF로 글자 크기와 배치를 확인한다.</li>
+<li>친구 발표를 들을 때는 QR로 웹앱을 직접 써 보고, '가장 설득력 있었던 근거 하나'와 '더 궁금한 점 하나'를 적는다.</li>
+</ul>
+<h2>제출 체크리스트</h2>
+<ul>
+<li>[ ] 보고서 (템플릿의 회색 안내 글을 모두 지웠는지)</li>
+<li>[ ] A1 포스터 (구글 슬라이드 파일 링크)</li>
+<li>[ ] 노트북 파일(.ipynb)과 정리한 데이터 my_data.csv (직접 찍은 사진은 제외)</li>
+<li>[ ] 웹앱 zip (반-번호.zip, 클래스룸 '웹앱 제출')</li>
+<li>[ ] 제미나이 대화 전체 (공유 링크 또는 PDF, 대화방 이름 확인)</li>
+<li>[ ] 보고서와 포스터의 모든 숫자가 내 노트북 결과(summary())와 같은지</li>
+<li>[ ] AI 문장을 그대로 옮긴 곳이 없는지</li>
+<li>[ ] 데이터 출처와 이용 조건을 보고서와 포스터에 적었는지</li>
+<li>[ ] teacher를 쓴 단계를 보고서 7장에 솔직하게 적었는지</li>
+</ul>
+<h2>자주 나오는 말</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>말</th>
+<th>뜻</th>
+<th>이렇게 읽는다</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API</td>
+<td>프로그램이 다른 서비스에 데이터를 요청하는 창구</td>
+<td>인증키는 비밀번호처럼 다룬다</td>
+</tr>
+<tr>
+<td>라이선스</td>
+<td>데이터를 쓸 수 있는 조건 (CC BY, MIT, 공공누리 등)</td>
+<td>출처를 밝히는 것은 기본</td>
+</tr>
+<tr>
+<td>TF-IDF</td>
+<td>낱말이 그 글에서 얼마나 중요한지 나타내는 숫자</td>
+<td>그 글에 자주, 다른 글에 드물게 나오면 큼</td>
+</tr>
+<tr>
+<td>전이학습</td>
+<td>미리 학습된 신경망의 '눈'을 빌려 쓰는 방법</td>
+<td>사진 한 장이 숫자 수백~천여 개가 된다</td>
+</tr>
+<tr>
+<td>파라미터</td>
+<td>신경망이 학습으로 정하는 숫자(가중치와 편향)</td>
+<td>입력 수 × 뉴런 수 + 뉴런 수</td>
+</tr>
+<tr>
+<td>검증 자료</td>
+<td>학습 중 실력을 재려고 학습 자료에서 떼어 둔 부분</td>
+<td>튜닝은 이것으로만 한다</td>
+</tr>
+<tr>
+<td>시험 자료</td>
+<td>마지막에 딱 한 번 채점하는 자료</td>
+<td>결과를 보고 설정을 바꾸지 않는다</td>
+</tr>
+<tr>
+<td>학습 곡선</td>
+<td>반복마다 loss와 val_loss가 어떻게 변했는지</td>
+<td>val_loss가 다시 오르면 과대적합</td>
+</tr>
+<tr>
+<td>과대적합</td>
+<td>학습 자료를 외워 새 자료에서 오히려 틀리는 상태</td>
+<td>EarlyStopping으로 막는다</td>
+</tr>
+<tr>
+<td>데이터 누수</td>
+<td>시험 자료의 정보가 학습에 섞여 점수가 부풀려지는 일</td>
+<td>check가 ⚠️로 알려 준다</td>
+</tr>
+<tr>
+<td>정확도</td>
+<td>전체 중 맞힌 비율</td>
+<td>무작위(1 ÷ 종류 수)와 비교한다</td>
+</tr>
+<tr>
+<td>혼동행렬</td>
+<td>실제(줄)와 예측(칸)의 개수표</td>
+<td>대각선 = 맞힌 것, 나머지 = 헷갈린 쌍</td>
+</tr>
+<tr>
+<td>재현율</td>
+<td>실제 그 종류 중 맞힌 비율</td>
+<td>낮으면 그 종류를 자주 놓침</td>
+</tr>
+<tr>
+<td>강건성</td>
+<td>조건이 바뀌어도 성능이 유지되는 정도</td>
+<td>6단계 조건 바꾼 시험으로 확인</td>
+</tr>
+<tr>
+<td>웹앱 주소</td>
+<td>선생님이 반 웹앱 전시장에 올린 내 웹앱의 주소</td>
+<td>계속 열려 있다. QR로 만들어 포스터에</td>
+</tr>
+</tbody>
+</table></div></main>
+<footer>바이브 코딩으로 학생들과 딥러닝 만들기 · 2026</footer>
+</div><script>
+document.querySelectorAll('pre').forEach(p=>{const w=document.createElement('div');w.className='code';p.parentNode.insertBefore(w,p);w.appendChild(p);
+const b=document.createElement('button');b.className='copy';b.textContent='복사';b.onclick=async()=>{const t=p.innerText;try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}b.textContent='복사됨';setTimeout(()=>b.textContent='복사',1500)};w.appendChild(b)});
+</script></body></html>

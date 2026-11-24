@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>고2 난이도 점검표 (교사용) · 바이브 코딩 딥러닝</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FFFBF1;--cream2:#FBF3E4;--ink:#4A1027;--maroon:#6B1A35;--body:#5B3A45;--pink:#F7BFE0;--lime:#D9F27A;--blue:#C3D3F4;--line:#E9D9CF}
+*{box-sizing:border-box}
+body{margin:0;background:var(--pink);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;line-height:1.75;font-size:16.5px;word-break:keep-all}
+.frame{max-width:920px;margin:0 auto;background:var(--cream);min-height:100vh}
+header{position:sticky;top:0;z-index:5;background:rgba(255,251,241,.95);backdrop-filter:blur(6px);border-bottom:1.5px solid var(--maroon);padding:12px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header a{color:var(--maroon);font-weight:700;text-decoration:none;font-size:14px;border:1.5px solid var(--maroon);border-radius:999px;padding:6px 14px}
+header a:hover{background:var(--lime)}
+header .t{margin-left:auto;font-family:'Gowun Batang',serif;font-weight:700;color:var(--maroon)}
+main{padding:40px 48px 80px}
+h1{font-family:'Gowun Batang',serif;font-size:clamp(26px,4vw,36px);line-height:1.35;color:var(--maroon);margin:0 0 24px}
+h2{font-size:23px;color:var(--maroon);margin:48px 0 14px;padding-top:14px;border-top:1.5px solid var(--maroon)}
+h3{font-size:18px;margin:28px 0 10px}
+p,li{color:var(--body)}
+strong{color:var(--ink)}
+a{color:var(--maroon)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;background:rgba(107,26,53,.08);padding:1px 6px;border-radius:6px;font-size:.88em}
+.code{position:relative;margin:14px 0}
+pre{background:#2B0E1A;color:#FBEFF4;padding:18px 18px 18px;border-radius:14px;overflow:auto;font-size:13.5px;line-height:1.6;white-space:pre-wrap;word-break:break-all;margin:0}
+pre code{background:none;padding:0;color:inherit}
+.copy{position:absolute;top:8px;right:8px;border:1.5px solid var(--lime);background:var(--lime);color:var(--maroon);font:inherit;font-size:12px;font-weight:700;border-radius:999px;padding:4px 12px;cursor:pointer;min-height:32px}
+.tw{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:15px;background:#fff}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{background:var(--blue);color:var(--maroon)}
+ol,ul{padding-left:24px}
+li{margin:4px 0}
+footer{padding:24px 48px;font-size:13px;color:var(--body);border-top:1px solid var(--line)}
+@media (max-width:640px){main{padding:28px 20px 60px}header{padding:10px 16px}footer{padding:20px}}
+@media print{header,.copy{display:none}body{background:#fff}.frame{max-width:none}}
+</style></head>
+<body><div class="frame">
+<header><a href="index.html#teacher">← 교육자료 사이트</a><span class="t">고2 난이도 점검표 (교사용)</span></header>
+<main><h1>고2 딥러닝 프로젝트 난이도 점검표</h1>
+<p>이 프로젝트가 고2 학생에게 맞는 수준인지, 어디서 막힐 수 있는지, 주제별로 무엇을 준비하면 되는지 정리한 표예요.</p>
+<h2>괜찮은 이유</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>근거</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>이미 아는 개념에서 한 걸음</td>
+<td>로지스틱 회귀·KNN·SVM을 이미 배웠어요. 신경망도 Dense 64 하나에 softmax라서 '로지스틱 회귀를 한 층 쌓은 것'으로 설명돼요. 학습/검증/시험 나누기, 과대적합, 혼동행렬도 배운 내용을 다시 써요.</td>
+</tr>
+<tr>
+<td>어려운 부분은 바이브 코딩이 맡음</td>
+<td>TF-IDF, 전이학습, 웹앱, QR은 혼자 짜기 어렵지만 부탁 문장이 다 있어서, 학생은 '왜 이렇게 하는지' 이해하는 데 집중할 수 있어요.</td>
+</tr>
+<tr>
+<td>check와 teacher가 바닥을 받쳐 줌</td>
+<td>막혀서 아무것도 못 내는 학생이 없어요. 통과 기록과 teacher 사용 기록으로 혼자 해낸 단계와 도움받은 단계도 구분돼요.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>위험과 대책</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>위험</th>
+<th>이유</th>
+<th>줄이는 방법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>분량</td>
+<td>7차시에 13단계와 보고서, 포스터까지 해야 해요. 한 차시에 2단계 정도씩이라 빠듯해요.</td>
+<td>W3(QR), 4단계(튜닝)를 '도전'으로 돌리기</td>
+</tr>
+<tr>
+<td>무료 Gemini 대화가 길어짐</td>
+<td>한 대화에 7차시 분량이 쌓이면 AI가 앞 내용을 헷갈려요.</td>
+<td>summary() 결과를 대화방에 붙여 넣는 습관 들이기 (노트북에 안내돼 있음)</td>
+</tr>
+<tr>
+<td>Colab 환경</td>
+<td>런타임이 끊기면 변수가 사라져서 처음부터 다시 실행해야 해요.</td>
+<td>매 차시 시작할 때 '위에서부터 모두 실행' 연습시키기</td>
+</tr>
+<tr>
+<td>6단계·7단계 해석</td>
+<td>학생 간 차이가 가장 크게 나는 곳이에요.</td>
+<td>괜찮아요. 루브릭 변별을 여기서 하기</td>
+</tr>
+</tbody>
+</table></div>
+<h2>주제별 난이도</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>순위</th>
+<th>주제</th>
+<th>난이도</th>
+<th>이유</th>
+<th>준비할 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>위성 사진 토지 감시</td>
+<td>쉬움</td>
+<td>데이터가 깨끗하고 내려받기 한 번으로 끝나요. 가장 무난해요.</td>
+<td>EuroSAT 백업 사진 zip</td>
+</tr>
+<tr>
+<td>2</td>
+<td>분리배출 도우미</td>
+<td>보통</td>
+<td>공개 데이터로 시작하면 쉬워요. 실제 사진까지 찍으면 시간이 들지만 탐구가 좋아져요.</td>
+<td>TrashNet 백업 사진 zip, 학교 분리수거함 사진 촬영 시간</td>
+</tr>
+<tr>
+<td>3</td>
+<td>재난문자 쉬운 안내</td>
+<td>어려움</td>
+<td>API 인증키, 응답 구조 찾기에서 막히기 쉬워요.</td>
+<td>API 인증키, 백업 CSV(필수)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>댓글 혐오 표현 감지</td>
+<td>지도 부담 큼</td>
+<td>기술은 보통인데, 데이터에 실제 욕설이 있어 고2에게는 지도 부담이 커요. 희망 학생만, 사전 지도 후 허용 권장.</td>
+<td>백업 CSV, 사전 지도, 선생님 먼저 검토</td>
+</tr>
+</tbody>
+</table></div></main>
+<footer>바이브 코딩으로 학생들과 딥러닝 만들기 · 2026</footer>
+</div><script>
+document.querySelectorAll('pre').forEach(p=>{const w=document.createElement('div');w.className='code';p.parentNode.insertBefore(w,p);w.appendChild(p);
+const b=document.createElement('button');b.className='copy';b.textContent='복사';b.onclick=async()=>{const t=p.innerText;try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}b.textContent='복사됨';setTimeout(()=>b.textContent='복사',1500)};w.appendChild(b)});
+</script></body></html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1차시 오리엔테이션: SDG 문제를 푸는 AI 도구 만들기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400..800&family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&display=swap">
+<style>
+html,body{margin:0;height:100%;background:#F7BFE0;font-family:'Noto Sans KR',system-ui,sans-serif}
+.top{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#FFFBF1;border-bottom:2px solid #6B1A35;color:#6B1A35;font-weight:700;font-size:15px}
+.top a{color:#6B1A35} .top .t{margin-right:auto}
+.stagewrap{position:relative;width:min(100vw,calc((100vh - 120px) * 16 / 9));margin:12px auto 0;aspect-ratio:16/9;overflow:hidden;border-radius:14px;box-shadow:0 10px 30px rgba(74,16,39,.2);background:#FFFBF1}
+.stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.slot{position:absolute;inset:0} .slot>section{position:relative;width:1920px;height:1080px;overflow:hidden;box-sizing:border-box} aside{display:none}
+.ctrl{display:flex;justify-content:center;align-items:center;gap:14px;padding:12px}
+.ctrl button{font:inherit;font-weight:700;font-size:16px;min-width:96px;min-height:44px;border-radius:999px;border:2px solid #6B1A35;background:#FFFBF1;color:#6B1A35;cursor:pointer}
+.ctrl button:disabled{opacity:.4;cursor:default} #count{font-weight:800;color:#6B1A35;min-width:64px;text-align:center}
+section {
+  --ink: #1B2A41;
+  --paper: #FAF7F0;
+  --soft: #EAF1F7;
+  --body: #4A5568;
+  --orange: #E9873A;
+  --orange-ink: #A84E08;
+  --blue: #2F6FA8;
+  --card: #FFFDF8;
+  --line: #E2DACB;
+  font-family: 'Noto Sans KR', Arial, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 128px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  box-sizing: border-box;
+}
+section.soft { background: var(--soft); }
+section.dark { background: var(--ink); color: #F4F1EA; }
+section.accent { background: var(--orange); color: var(--ink); justify-content: center; }
+
+.eyebrow { font-size: 26px; font-weight: 700; color: var(--orange-ink); letter-spacing: 0.04em; margin: 0; }
+section.dark .eyebrow { color: #F2A766; }
+h1 { font-size: 96px; font-weight: 800; line-height: 1.15; margin: 0; }
+h2 { font-size: 64px; font-weight: 800; line-height: 1.2; margin: 0; }
+h3 { font-size: 40px; font-weight: 700; line-height: 1.3; margin: 0; }
+.lead { font-size: 40px; line-height: 1.5; color: var(--body); margin: 0; }
+section.dark .lead { color: #C9D6E3; }
+.body { font-size: 30px; line-height: 1.55; color: var(--body); margin: 0; }
+section.dark .body { color: #C9D6E3; }
+.small { font-size: 26px; line-height: 1.5; color: var(--body); margin: 0; }
+section.dark .small { color: #C9D6E3; }
+.hl { color: var(--orange-ink); font-weight: 700; }
+section.dark .hl { color: #F2A766; }
+
+.head { display: flex; flex-direction: column; gap: 16px; }
+.cols { display: flex; gap: 40px; flex: 1; }
+.col { flex: 1; display: flex; flex-direction: column; gap: 24px; }
+
+.cards { display: flex; gap: 32px; }
+.card { flex: 1; background: var(--card); border: 2px solid var(--line); border-radius: 28px; padding: 40px; display: flex; flex-direction: column; gap: 16px; }
+section.soft .card { border-color: #CFDCE8; }
+.card.pick { border: 4px solid var(--orange); }
+.card .tag { font-size: 26px; font-weight: 700; color: var(--blue); margin: 0; }
+.card .body { font-size: 28px; }
+.card .small { font-size: 26px; }
+
+.badge { width: 72px; height: 72px; border-radius: 36px; background: var(--orange); color: var(--ink); font-size: 36px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.badge.blue { background: var(--blue); color: #FAF7F0; }
+
+.rows { display: flex; flex-direction: column; gap: 22px; }
+.row { display: flex; align-items: center; gap: 32px; background: var(--card); border: 2px solid var(--line); border-radius: 24px; padding: 22px 36px; }
+section.soft .row { border-color: #CFDCE8; }
+.row .body { flex: 1; }
+.row h3 { font-size: 34px; width: 420px; flex-shrink: 0; }
+
+table.tbl { border-collapse: collapse; width: 100%; font-size: 30px; }
+table.tbl th { text-align: left; font-size: 28px; font-weight: 700; color: var(--body); padding: 18px 28px; border-bottom: 3px solid var(--ink); }
+table.tbl td { padding: 20px 28px; border-bottom: 2px solid var(--line); line-height: 1.4; color: var(--ink); vertical-align: top; }
+section.soft table.tbl td { border-bottom-color: #CFDCE8; }
+table.tbl td.k { font-weight: 700; width: 300px; }
+table.tbl td.new { color: var(--orange-ink); font-weight: 700; }
+
+.flow { display: flex; align-items: stretch; gap: 20px; }
+.step { flex: 1; border-radius: 28px; padding: 40px; display: flex; flex-direction: column; gap: 14px; }
+.step.a { background: #FDE6D2; }
+.step.b { background: #DCE8F4; }
+.step.c { background: #1B2A41; color: #F4F1EA; }
+.step.c .body { color: #C9D6E3; }
+.step .code { font-size: 30px; font-weight: 800; color: var(--orange-ink); margin: 0; }
+.step.b .code { color: var(--blue); }
+.step.c .code { color: #F2A766; }
+.arrow { display: flex; align-items: center; }
+.arrow x-shape { width: 56px; height: 48px; }
+.optional { border: 3px dashed var(--blue); border-radius: 28px; padding: 28px 40px; display: flex; align-items: center; gap: 32px; }
+
+.check { width: 40px; height: 40px; border: 4px solid var(--ink); border-radius: 8px; flex-shrink: 0; box-sizing: border-box; }
+
+.mock { background: var(--card); border-radius: 24px; padding: 36px; display: flex; flex-direction: column; gap: 20px; color: var(--ink); }
+.mock .title { font-size: 28px; font-weight: 700; margin: 0; }
+.slider { display: flex; flex-direction: column; gap: 8px; }
+.slider .lab { font-size: 24px; color: var(--body); margin: 0; }
+.track { height: 12px; border-radius: 6px; background: #E2DACB; position: relative; }
+.fill { height: 12px; border-radius: 6px; background: var(--orange); }
+.result { font-size: 44px; font-weight: 800; color: var(--orange-ink); margin: 0; }
+.bar { height: 28px; border-radius: 8px; }
+.qr { border: 4px dashed #F2A766; border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 32px; }
+.qr .big { font-size: 64px; font-weight: 800; color: #F2A766; margin: 0; }
+
+.linkrow { display: flex; align-items: center; gap: 28px; padding: 24px 0; border-bottom: 2px solid #3A4B66; }
+.linkrow a { color: #F2A766; font-size: 32px; font-weight: 700; text-decoration: none; }
+
+.prompt { background: #1B2A41; color: #F4F1EA; border-radius: 20px; padding: 26px 32px; display: flex; flex-direction: column; gap: 10px; }
+.prompt .lab { color: #F2A766; font-weight: 700; font-size: 24px; margin: 0; }
+.prompt .txt { font-size: 26px; line-height: 1.5; margin: 0; color: #F4F1EA; }
+.out { background: #FFFDF8; border: 2px solid #E2DACB; border-radius: 20px; padding: 24px 32px; display: flex; flex-direction: column; gap: 10px; }
+section.soft .out { border-color: #CFDCE8; }
+.out .lab { color: #2F6FA8; font-weight: 700; font-size: 24px; margin: 0; }
+.out .txt { font-size: 26px; line-height: 1.5; margin: 0; color: #1B2A41; }
+.warn { background: #FDE6D2; border-radius: 20px; padding: 20px 28px; display: flex; flex-direction: column; gap: 6px; }
+.warn .lab { color: #A84E08; font-weight: 700; font-size: 24px; margin: 0; }
+.warn .txt { font-size: 26px; line-height: 1.5; margin: 0; color: #1B2A41; }
+.note { font-size: 24px; line-height: 1.5; color: #4A5568; margin: 0; }
+.note b { color: #1B2A41; }
+.two { display: flex; gap: 32px; flex: 1; }
+.two > div { flex: 1; display: flex; flex-direction: column; gap: 18px; }
+.arrowtxt { display: flex; align-items: center; font-size: 56px; color: #A84E08; font-weight: 800; }
+.phase { flex: 1; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 12px; background: var(--card); border: 2px solid var(--line); }
+.phase .when { font-size: 26px; font-weight: 800; color: var(--orange-ink); margin: 0; }
+.phase h3 { font-size: 36px; }
+.phase.now { border: 4px solid var(--orange); }
+.big { font-size: 120px; font-weight: 800; line-height: 1; color: var(--orange-ink); margin: 0; }
+.mini { width: 100%; border-collapse: collapse; font-size: 26px; }
+.mini td, .mini th { padding: 12px 16px; border-bottom: 2px solid var(--line); text-align: center; }
+.mini th { color: var(--body); font-size: 24px; }
+.mini td.hot { background: #FDE6D2; color: #A84E08; font-weight: 800; }
+.mini td.diag { font-weight: 800; }
+.vbar { display: flex; align-items: flex-end; gap: 40px; height: 360px; }
+.vbar > div { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 10px; height: 100%; }
+.vbar .b { width: 100%; border-radius: 12px 12px 0 0; background: #2F6FA8; }
+.vbar .v { font-size: 34px; font-weight: 800; margin: 0; }
+.vbar .l { font-size: 24px; color: var(--body); margin: 0; }
+.qrbox { background: #FFFDF8; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.qrbox p { font-size: 24px; color: #1B2A41; margin: 0; }
+.pts { font-size: 40px; font-weight: 800; color: var(--orange-ink); white-space: nowrap; }
+table.tbl td.pt { width: 120px; font-weight: 800; color: var(--orange-ink); font-size: 34px; }
+.rule { display: flex; gap: 20px; align-items: flex-start; }
+.rule .badge { width: 56px; height: 56px; font-size: 28px; }
+.sdg-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.sdg { background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 22px 18px; display: flex; gap: 10px; align-items: baseline; }
+.sdg b { font-size: 30px; color: var(--orange-ink); min-width: 40px; }
+.sdg span { font-size: 26px; line-height: 1.25; color: var(--ink); }
+.sdg.on { background: #FDE6D2; border-color: #E9873A; }
+.facts { display: flex; gap: 20px; }
+.fact { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.fact .n { font-size: 64px; font-weight: 800; color: var(--orange-ink); line-height: 1; margin: 0; }
+.fact .t { font-size: 24px; color: var(--body); margin: 0; }
+
+</style></head><body>
+<div class="top"><span class="t">1차시 오리엔테이션: SDG 문제를 푸는 AI 도구 만들기</span><a href="index.html">← 교육자료 사이트</a></div>
+<div class="stagewrap" id="wrap"><div class="stage" id="stage">
+<div class="slot" data-i="0"><section id="cover" class="dark" data-transition="fade" style="justify-content:space-between">
+<p class="eyebrow">AI 수행평가 · 1차시 오리엔테이션</p>
+<div class="head">
+<h1>SDG 문제를 푸는<br>AI 도구 만들기</h1>
+<p class="lead">바이브 코딩으로 완성하는 인공신경망 프로젝트</p>
+</div>
+<p class="small">오늘 순서: 써 보기 → SDGs란? → 평가 기준 → 포함·제출 → 일정 → 예제 → 개발 환경 → 시작</p>
+<aside>인사. 오늘 20분 안내하고 바로 시작한다고 말한다. (30초)</aside>
+</section></div>
+<div class="slot" data-i="1" hidden><section id="taste" class="soft">
+<div class="head">
+<p class="eyebrow">먼저 써 보기 · 3분</p>
+<h2>7차시 뒤, 여러분이 웹앱이에요</h2>
+</div>
+<div class="two">
+<div style="justify-content:center">
+<div class="rows">
+<div class="row"><div class="badge">1</div><p class="body">선생님 화면의 QR을 휴대폰으로 찍어요</p></div>
+<div class="row"><div class="badge">2</div><p class="body">예시 버튼을 누르거나, 재난문자를 직접 써 봐요</p></div>
+<div class="row"><div class="badge">3</div><p class="body">‘재해 이름 지우고 다시 해 보기’를 눌러요. 그래도 맞힐까요?</p></div>
+</div>
+</div>
+<div style="align-items:center; justify-content:center">
+<div class="qrbox" style="width:420px; padding:48px 32px; border:4px dashed #E9873A"><p style="font-size:40px; font-weight:800; color:#A84E08">QR은 선생님 화면에</p><p>시연 노트북을 실행하면 새 QR이 나와요</p></div>
+</div>
+</div>
+<p class="note"><b>이 웹앱 안에도</b> 여러분이 배운 것이 들어 있어요: 글 → 숫자(TF-IDF) → 인공신경망 → 확률 → HTML 웹앱. W2단계에서 똑같이 만들어요.</p>
+<aside>수업 10분 전 vibe_demo_gradio 노트북을 모두 실행하고 5번 칸의 QR을 띄운다. 공유 주소가 안 열리면 화면으로 시연하거나 교육자료 사이트의 웹앱 예시 페이지(demo.html)를 쓴다. 학생 두세 명에게 결과를 물어본다. 재해 이름을 지워도 맞히는 경우가 있다는 데서 '6단계 실험'을 예고한다. (3분)</aside>
+</section></div>
+<div class="slot" data-i="2" hidden><section id="sdgs">
+<div class="head">
+<p class="eyebrow">SDGs란? · 지속가능발전목표</p>
+<h2>2030년까지 세계가 함께 풀기로 한 17가지 문제</h2>
+</div>
+<div class="facts">
+<div class="fact"><p class="n">2015</p><p class="t">UN 193개 회원국이 함께 채택</p></div>
+<div class="fact"><p class="n">17</p><p class="t">큰 목표</p></div>
+<div class="fact"><p class="n">169</p><p class="t">세부 목표 (11.5처럼 번호로 불러요)</p></div>
+<div class="fact"><p class="n">2030</p><p class="t">이루기로 한 해 · 누구도 소외되지 않게</p></div>
+</div>
+<div class="sdg-grid">
+<div class="sdg"><b>1</b><span>빈곤 퇴치</span></div>
+<div class="sdg"><b>2</b><span>기아 종식</span></div>
+<div class="sdg"><b>3</b><span>건강과 웰빙</span></div>
+<div class="sdg"><b>4</b><span>양질의 교육</span></div>
+<div class="sdg"><b>5</b><span>성평등</span></div>
+<div class="sdg"><b>6</b><span>깨끗한 물과 위생</span></div>
+<div class="sdg"><b>7</b><span>깨끗한 에너지</span></div>
+<div class="sdg"><b>8</b><span>일자리와 경제성장</span></div>
+<div class="sdg"><b>9</b><span>산업·혁신·인프라</span></div>
+<div class="sdg on"><b>10</b><span>불평등 감소</span></div>
+<div class="sdg on"><b>11</b><span>지속가능한 도시</span></div>
+<div class="sdg on"><b>12</b><span>책임 있는 소비·생산</span></div>
+<div class="sdg"><b>13</b><span>기후변화 대응</span></div>
+<div class="sdg"><b>14</b><span>해양 생태계</span></div>
+<div class="sdg on"><b>15</b><span>육상 생태계</span></div>
+<div class="sdg on"><b>16</b><span>평화·정의·제도</span></div>
+<div class="sdg"><b>17</b><span>지구촌 협력</span></div>
+</div>
+<p class="note"><b>주황색</b>은 우리 네 주제가 다루는 목표예요. 다른 목표로 주제를 정해도 돼요(선생님과 상의).</p>
+<p style="box-sizing:border-box; position:absolute; top:128px; left:calc(50% + 533.65px); width:720px; font-family:'Noto Sans KR', Arial, sans-serif; font-size:30px; line-height:1.2; transform:translateX(-50%)"><a href="https://www.youtube.com/watch?v=vLybE9M0CCI">https://www.youtube.com/watch?v=vLybE9M0CCI</a></p>
+<aside>통합사회에서 배운 지속가능발전과 연결한다. 목표 이름은 짧게 줄인 것이고, 정확한 문장은 UN SDGs 누리집(sdgs.un.org)이나 지속가능발전포털에서 찾게 한다. (2분)</aside>
+</section></div>
+<div class="slot" data-i="3" hidden><section id="sdguse" class="soft" style="gap:24px">
+<div class="head">
+<p class="eyebrow">SDGs를 탐구에 쓰는 법</p>
+<h2>SDGs에서 프로젝트 주제를 추출하기 - 예시</h2>
+</div>
+<div class="flow">
+<div class="step a" style="padding:24px 28px"><p class="code">목표 11</p><p class="body">지속가능한 도시와 공동체</p></div>
+<div class="arrowtxt">›</div>
+<div class="step a" style="padding:24px 28px"><p class="code">세부 목표 11.5</p><p class="body">취약한 사람을 지키며 재난 피해를 크게 줄인다</p></div>
+<div class="arrowtxt">›</div>
+<div class="step b" style="padding:24px 28px"><p class="code">내가 찾은 문제</p><p class="body">재난문자가 어려워 외국인·어르신이 바로 이해하기 힘들다</p></div>
+<div class="arrowtxt">›</div>
+<div class="step c" style="padding:24px 28px"><p class="code">내 AI 도구</p><p class="body">문자 → 재난 유형 + 쉬운 행동 요령</p></div>
+</div>
+<table class="tbl">
+<tr><th>주제</th><th>세부 목표</th><th>줄이려는 문제</th></tr>
+<tr><td class="k">위성 사진</td><td>15.1 · 11.3</td><td>숲과 농지가 줄고 도시가 퍼지는 것을 빨리 알아채기 어렵다</td></tr>
+<tr><td class="k">분리배출</td><td>12.5</td><td>재질을 몰라 잘못 버려 재활용이 안 된다</td></tr>
+<tr><td class="k">혐오 표현</td><td>16.1 · 10.3</td><td>혐오 댓글이 차별과 폭력으로 번진다</td></tr>
+</table>
+<aside>보고서 1장과 평가 기준 '문제 정의·SDGs'(8점)로 바로 이어진다고 말한다. 세부 목표 문장을 찾아 내 말로 옮기고, 누가 왜 어려운지 근거를 대는 것이 핵심. (2분)</aside>
+</section></div>
+<div class="slot" data-i="4" hidden><section id="rubric">
+<div class="head">
+<p class="eyebrow">평가 기준 · 30점</p>
+<h2>세부 평가 기준 - 보고서</h2>
+</div>
+<img src="assets/rubric_report.png" alt="보고서 평가 기준표: 문제 정의 및 SDGs 연계 8점, 데이터·AI 모델링 과정 12점, 성능평가 및 개선 6점, 보고서 완성도 4점" style="position:absolute; top:calc(50% + 113.58px); left:128px; width:1282.18px; height:763.44px; transform:translateY(-50%)">
+<aside>학교 확정 평가표 문구를 따른다. 기본점수 10점은 30점에 더하는 점수가 아님을 필요하면 덧붙인다. 정확도가 낮아도 이유를 설명하면 된다는 점을 강조. (4분)</aside>
+</section></div>
+<div class="slot" data-i="5" hidden><section id="42f53eb2">
+<div class="head">
+<p class="eyebrow">평가 기준 · 10점</p>
+<h2>세부 평가 기준 - 포스터 발표</h2>
+</div>
+<img src="assets/rubric_poster.png" alt="포스터 발표 평가 기준표: 내용 이해도 및 전달력 7점, 포스터 시각적 완성도 3점" style="position:absolute; top:calc(50% + 65.53px); left:128px; width:1404.51px; height:650.7px; transform:translateY(-50%)">
+<aside>학교 확정 평가표 문구를 따른다. 기본점수 10점은 30점에 더하는 점수가 아님을 필요하면 덧붙인다. 정확도가 낮아도 이유를 설명하면 된다는 점을 강조. (4분)</aside>
+</section></div>
+<div class="slot" data-i="6" hidden><section id="include" class="soft">
+<div class="head">
+<p class="eyebrow">반드시 포함할 것, 제출할 것</p>
+<h2>제출물 및 규칙</h2>
+</div>
+<div class="two">
+<div>
+<div class="out"><p class="lab">보고서에 꼭 들어갈 것</p><p class="txt">SDG 세부 목표와 문제 · 교과 개념을 근거로 한 가설<br>데이터 출처와 이용 조건 · 정리한 기준<br>숫자로 바꾼 방법 · 신경망 구조와 튜닝 이유<br>정확도, 혼동행렬, 종류별 재현율<br>조건을 바꾼 시험 1가지 이상 · 한계와 개선 방안<br>AI에게 맡긴 것과 내가 판단한 것</p></div>
+</div>
+<div>
+<div class="out"><p class="lab">제출물 4가지</p><p class="txt">① 보고서 (구글 문서 템플릿)<br>② A1 포스터 (구글 슬라이드 템플릿, 인쇄해서 발표)<br>③ 노트북 파일 + 정리한 데이터<br>④ 제미나이 대화 전체 (공유 링크 또는 PDF)</p></div>
+<div class="warn"><p class="lab">지킬 규칙 3가지</p><p class="txt">학교 계정 무료 제미나이, 대화방은 처음부터 끝까지 하나<br>AI가 쓴 문장을 보고서에 옮기지 않기<br>대화에 이름, 학번, 얼굴 사진 쓰지 않기</p></div>
+</div>
+</div>
+<aside>대화 기록은 따로 점수를 매기지 않고, 데이터·AI 모델링과 보고서 근거를 확인하는 데 쓴다고 말한다. 웹앱이 발표 날 안 열려도 화면 시연으로 대신하며 감점하지 않는다. (4분)</aside>
+</section></div>
+<div class="slot" data-i="7" hidden><section id="schedule">
+<div class="head">
+<p class="eyebrow">일정 · 11월 3주 ~ 12월 1주</p>
+<h2>4차시까지 노트북, 그다음 보고서와 포스터</h2>
+</div>
+<table class="tbl" style="transform:translate(0, 2px)">
+<tr><th>차시</th><th>할 일</th><th>끝나면 남아야 하는 것</th></tr>
+<tr><td class="k">1 (오늘)</td><td>주제 · 가설, 노트북 준비, 데이터 모으기 (A1~A3)</td><td>데이터 파일, 출처 · 이용 조건</td></tr>
+<tr><td class="k">2</td><td>숫자로 바꾸기, 신경망 설계 · 학습 (1~3)</td><td>모델 구조, 학습 곡선</td></tr>
+<tr><td class="k">3</td><td>튜닝, 시험 한 번, 틀린 예와 조건 바꾼 시험 (4~6)</td><td>정확도, 혼동행렬, 실험 결과</td></tr>
+<tr><td class="k">4</td><td>내 말로 해석 쓰기, 웹앱 · QR (7, W1~W3)</td><td>해석 문장, 웹앱 캡처</td></tr>
+<tr><td class="k">5, 6</td><td>보고서 쓰기, A1 포스터 만들기</td><td>보고서, 포스터 인쇄</td></tr>
+<tr><td class="k">7,8</td><td>발표, 친구 AI 써 보기</td><td>포스터 발표</td></tr>
+</table>
+<aside>차시 날짜는 학급 시간표에 맞춰 말한다. 한 차시에 못 끝내면 다음 차시 처음 10분에 이어서 하고, 막히면 teacher를 쓴다. (2분)</aside>
+</section></div>
+<div class="slot" data-i="8" hidden><section id="example" class="soft">
+<div class="head">
+<p class="eyebrow">예제</p>
+<h2>주제는 예시주제 4개 혹은 자유주제!</h2>
+</div>
+<div class="cards">
+<div class="card"><p class="tag">사진 · SDG 15.1</p><h3>위성 사진 토지 감시</h3><p class="small">가장 무난해요</p></div>
+<div class="card"><p class="tag">사진 · SDG 12.5</p><h3>분리배출 도우미</h3><p class="small">직접 찍은 사진을 더해요</p></div>
+<div class="card pick"><p class="tag">글 · SDG 11.5 · 10.2</p><h3>재난문자 쉬운 안내</h3><p class="small">← 오늘의 예제</p></div>
+<div class="card"><p class="tag">글 · SDG 16.1</p><h3>댓글 혐오 표현 감지</h3><p class="small">허락받은 학생만</p></div>
+</div>
+<div class="flow">
+<div class="step a"><p class="code">가설</p><p class="body">대설과 한파가 가장 헷갈릴 것</p></div>
+<div class="arrowtxt">›</div>
+<div class="step a"><p class="code">데이터</p><p class="body">11,904건 → 1,904건</p></div>
+<div class="arrowtxt">›</div>
+<div class="step b"><p class="code">결과</p><p class="body">정확도 87.4%, 한파↔대설 혼동</p></div>
+<div class="arrowtxt">›</div>
+<div class="step c"><p class="code">실험</p><p class="body">재해 이름 지우면<br>61.4%</p></div>
+</div>
+<aside>학생 캐러셀을 띄워 표지, 첫 10분, A3(⚠️ 고친 장면), 6단계(실험) 네 장만 빠르게 보여 준다. 다른 주제도 단계 이름과 순서가 같다고 강조. (5분)</aside>
+</section></div>
+<div class="slot" data-i="9" hidden><section id="env" style="gap:28px">
+<div class="head">
+<p class="eyebrow">개발 환경 · 함께 따라 하기</p>
+<h2>Colab 노트북 + 무료 제미나이 대화방 하나</h2>
+</div>
+<div class="rows" style="gap:14px">
+<div class="row" style="padding:16px 36px"><div class="badge">1</div><h3>노트북 복사</h3><p class="body">내 주제 노트북을 열고 파일 → 드라이브에 사본 저장</p></div>
+<div class="row" style="padding:16px 36px"><div class="badge">2</div><h3>GPU (사진 주제)</h3><p class="body">런타임 → 런타임 유형 변경 → T4 GPU (무료)</p></div>
+<div class="row" style="padding:16px 36px"><div class="badge">3</div><h3>0번 · 1번 칸</h3><p class="body">0번 준비 칸은 실행만, 1번 설정 칸은 내 것으로 고치고 실행</p></div>
+<div class="row" style="padding:16px 36px"><div class="badge">4</div><h3>대화방 하나</h3><p class="body">학교 계정 제미나이 새 대화, 이름 ‘SDG AI 프로젝트_출석번호’</p></div>
+<div class="row" style="padding:16px 36px"><div class="badge">5</div><h3>첫 메시지</h3><p class="body">노트북 맨 위 첫 메시지 + 설정 칸 내용 → “준비됐어”</p></div>
+</div>
+<aside>화면을 띄우고 한 단계씩 같이 한다. 다 된 학생은 손을 들게 해 확인. 인증키(재난문자 주제)는 대화방에 붙이지 않는다. (5분)</aside>
+</section>
+</div>
+<div class="slot" data-i="10" hidden><section id="start" class="dark">
+<div class="head">
+<p class="eyebrow">이제 시작</p>
+<h2>오늘 끝날 때까지 이것만 해 오세요</h2>
+</div>
+<div class="cards" style="flex:1">
+<div class="card" style="background:#24364F; border-color:#3A4B66"><p class="tag" style="color:#F2A766">1</p><h3>주제와 가설</h3><p class="body" style="color:#C9D6E3">SDGs를 해결할만한 프로젝트 주제 선정</p></div>
+<div class="card" style="background:#24364F; border-color:#3A4B66"><p class="tag" style="color:#F2A766">2</p><h3>A1 · A2 · A3</h3><p class="body" style="color:#C9D6E3">데이터를 모으고 나누기까지 check 🎉</p></div>
+<div class="card" style="background:#24364F; border-color:#3A4B66"><p class="tag" style="color:#F2A766">3</p><h3>출처 적기</h3><p class="body" style="color:#C9D6E3">설정 칸 SOURCE · LICENSE 채우기</p></div>
+</div>
+<p class="small">막히면: ⚠️ 문장을 그대로 대화방에 붙이기 → 세 번 고쳐도 안 되면 teacher("단계") · 안내서와 캐러셀은 언제든 다시 볼 수 있어요</p>
+<aside>남은 시간 동안 순회. 데이터 API가 막히는 학생에게는 백업 파일을 준다. (마무리 1분)</aside>
+</section></div>
+</div></div>
+<div class="ctrl"><button id="prev" type="button">← 이전</button><span id="count" aria-live="polite"></span><button id="next" type="button">다음 →</button></div>
+<script>
+const slots=[...document.querySelectorAll('.slot')], n=slots.length, wrap=document.getElementById('wrap'), stage=document.getElementById('stage');
+let i=0;
+function fit(){ stage.style.transform='scale('+(wrap.clientWidth/1920)+')'; }
+function go(k){ i=Math.max(0,Math.min(n-1,k)); slots.forEach((s,j)=>s.hidden=j!==i); document.getElementById('count').textContent=(i+1)+' / '+n;
+  document.getElementById('prev').disabled=i===0; document.getElementById('next').disabled=i===n-1; if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1)); }
+document.getElementById('prev').onclick=()=>go(i-1); document.getElementById('next').onclick=()=>go(i+1);
+addEventListener('keydown',e=>{ if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(i+1);} if(e.key==='ArrowLeft'||e.key==='PageUp')go(i-1); });
+let sx=null; wrap.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+wrap.addEventListener('touchend',e=>{ if(sx===null)return; const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40)go(i+(dx<0?1:-1)); sx=null; });
+wrap.addEventListener('click',e=>{ if(e.target.closest('a'))return; const r=wrap.getBoundingClientRect(); go(i+((e.clientX-r.left)>r.width/2?1:-1)); });
+addEventListener('resize',fit); addEventListener('hashchange',()=>go((parseInt(location.hash.slice(1))||1)-1)); fit(); go((parseInt(location.hash.slice(1))||1)-1);
+</script></body></html>
